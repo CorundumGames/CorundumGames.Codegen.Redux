@@ -22,6 +22,18 @@
         <Generator>TextTemplatingFilePreprocessor</Generator>
         <LastGenOutput>FeatureGeneratorTemplate.cs</LastGenOutput>
       </None>
+      <None Update="Context\AttributeGeneratorTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>AttributeGeneratorTemplate.cs</LastGenOutput>
+      </None>
+      <None Update="Context\DisposableContextGeneratorTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>DisposableContextGeneratorTemplate.cs</LastGenOutput>
+      </None>
+      <None Update="Context\TypeEnumGeneratorTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>TypeEnumGeneratorTemplate.cs</LastGenOutput>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -32,6 +44,19 @@
         <AutoGen>True</AutoGen>
         <DesignTime>True</DesignTime>
         <DependentUpon>FeatureGeneratorTemplate.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Context\AttributeGeneratorTemplate.cs">
+        <DependentUpon>AttributeGeneratorTemplate.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Context\DisposableContextGeneratorTemplate.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>DisposableContextGeneratorTemplate.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Context\TypeEnumGeneratorTemplate.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>TypeEnumGeneratorTemplate.tt</DependentUpon>
       </Compile>
     </ItemGroup>
 

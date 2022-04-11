@@ -1,5 +1,5 @@
 <#@ template language="C#" visibility="internal" #>
-<#@ import namespace="Entitas" #>
+<#@ import namespace="JCMG.EntitasRedux" #>
 
 <#
     var contextName = _context.AddContextSuffix();

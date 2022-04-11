@@ -1,33 +1,21 @@
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using DesperateDevs.CodeGeneration;
-using Entitas;
-using Entitas.CodeGeneration.Plugins;
+using EntitasRedux.Core.Plugins;
+using Genesis.Plugin;
 using JetBrains.Annotations;
 
-namespace CorundumGames.CodeGeneration.Plugins.Context
+namespace CorundumGames.Codegen.Redux.Context
 {
     [PublicAPI]
-    public sealed class DisposableContextGenerator : ICodeGenerator, ICachable
+    public sealed class DisposableContextGenerator : AbstractGenerator
     {
-        public string name => "Disposable Context Generator";
-        public int priority => 0;
-        public bool runInDryMode => true;
-        public Dictionary<string, object> objectCache
-        {
-            get;
-            set;
-        }
+        public override string Name => "Disposable Context Generator";
 
-        public CodeGenFile[] Generate(CodeGeneratorData[] data)
+        public override CodeGenFile[] Generate(CodeGeneratorData[] data)
         {
             return data
-                    .OfType<ContextData>()
-                    .Select(d => d.GetContextName())
-                    .Select(CreateFile)
-                    .ToArray()
-                ;
+                .OfType<ContextData>()
+                .Select(d => d.GetContextName())
+                .Select(CreateFile)
+                .ToArray();
         }
 
         private CodeGenFile CreateFile(string context)

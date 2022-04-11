@@ -1,0 +1,19 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="JCMG.EntitasRedux" #>
+
+[JetBrains.Annotations.MeansImplicitUse(JetBrains.Annotations.ImplicitUseTargetFlags.WithMembers)]
+public sealed class <#= _contextName #>Attribute : JCMG.EntitasRedux.ContextAttribute
+{
+    public <#= _contextName #>Attribute() : base("<#= _contextName #>")
+    {
+    }
+}
+
+<#+
+    private readonly string _contextName;
+    public AttributeGeneratorTemplate(string contextName)
+    {
+        _contextName = contextName?.RemoveContextSuffix() ?? throw new ArgumentNullException(nameof(contextName));
+    }
+#>

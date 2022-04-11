@@ -1,0 +1,30 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="JCMG.EntitasRedux" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+public enum ContextType
+{
+<#
+    foreach (var c in _contexts)
+    {
+#>
+    <#= c.RemoveContextSuffix() #>,
+<#
+    }
+#>
+}
+
+<#+
+    private readonly IReadOnlyCollection<string> _contexts;
+
+    public TypeEnumGeneratorTemplate(IEnumerable<string> contexts)
+    {
+        if (contexts == null)
+        {
+            throw new ArgumentNullException(nameof(contexts));
+        }
+
+        _contexts = contexts.ToArray();
+    }
+#>
