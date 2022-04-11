@@ -1,0 +1,58 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ import namespace="DesperateDevs.Utils" #>
+
+public partial class Contexts
+{
+
+#if (!ENTITAS_DISABLE_VISUAL_DEBUGGING && UNITY_EDITOR)
+
+    [Entitas.CodeGeneration.Attributes.PostConstructor]
+    public void InitializeContextObservers()
+    {
+        try
+        {
+<#
+    foreach (var c in _contextNames)
+    { #>
+            CreateContextObserver(<#= c.LowercaseFirst() #>);
+<#
+    } #>
+        }
+        catch (System.Exception e)
+        {
+            UnityEngine.Debug.LogException(e, this);
+        }
+    }
+
+    public void CreateContextObserver(Entitas.IContext context)
+    {
+        if (UnityEditor.EditorApplication.isPlayingOrWillChangePlaymode)
+        {
+            var observer = new Entitas.VisualDebugging.Unity.ContextObserver(context);
+
+            void OnChange(UnityEditor.PlayModeStateChange state)
+            {
+                if (state == UnityEditor.PlayModeStateChange.EnteredPlayMode)
+                {
+                    UnityEditor.EditorApplication.playModeStateChanged -= OnChange;
+
+                    UnityEngine.Object.DontDestroyOnLoad(observer.gameObject);
+                    // Can't call DontDestroyOnLoad when not in Play Mode, so I have to delay this until then
+                }
+            }
+
+            UnityEditor.EditorApplication.playModeStateChanged += OnChange;
+        }
+    }
+
+#endif
+}
+
+<#+
+    private readonly string[] _contextNames;
+
+    internal ContextObserverTemplate(string[] contextNames)
+    {
+        _contextNames = contextNames ?? throw new ArgumentNullException(nameof(contextNames));
+    }
+#>

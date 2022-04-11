@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="EntitasRedux.Core" Version="2.1.2" />
+      <PackageReference Include="EntitasRedux.Core.Plugins" Version="2.1.2" />
+      <PackageReference Include="Genesis.Plugin" Version="2.4.4" />
+      <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="DisposableComponent\SystemTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>SystemTemplate.cs</LastGenOutput>
+      </None>
+      <None Update="Base\FeatureGeneratorTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>FeatureGeneratorTemplate.cs</LastGenOutput>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="DisposableComponent\SystemTemplate.cs">
+        <DependentUpon>SystemTemplate.tt</DependentUpon>
+      </Compile>
+      <Compile Update="Base\FeatureGeneratorTemplate.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>FeatureGeneratorTemplate.tt</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>

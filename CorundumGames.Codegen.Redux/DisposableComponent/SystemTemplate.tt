@@ -1,0 +1,94 @@
+<#@ template language="C#" hostspecific="false" visibility="internal" #>
+<#@ output extension=".cs" #> <# /* So Rider highlights the templated parts as C# */ #>
+<#@ import namespace="JCMG.EntitasRedux" #>
+<#@ import namespace="Genesis.Plugin" #>
+
+<#
+    var contextName = _contextName.RemoveContextSuffix();
+    var entityName = contextName.AddEntitySuffix();
+    var matcherName = contextName.AddMatcherSuffix();
+    var systemName = SystemName;
+#>
+
+public sealed class <#= systemName #> : JCMG.EntitasRedux.IInitializeSystem, JCMG.EntitasRedux.ITearDownSystem
+{
+    private static readonly JCMG.EntitasRedux.GroupChanged<<#= entityName #>> _OnEntityRemoved = OnEntityRemoved;
+    private static readonly JCMG.EntitasRedux.GroupUpdated<<#= entityName #>> _OnEntityUpdated = OnEntityUpdated;
+    private static readonly JCMG.EntitasRedux.ContextEntityChanged _OnEntityWillBeDestroyed = OnEntityWillBeDestroyed;
+    private readonly JCMG.EntitasRedux.IContext<<#= entityName #>> _context;
+    private readonly JCMG.EntitasRedux.IGroup<<#= entityName #>> _group;
+
+    public <#= systemName #>(Contexts contexts)
+    {
+        _context = contexts.<#= contextName.LowercaseFirst() #>;
+        _group = _context.GetGroup(<#= matcherName #>.<#= _componentName.RemoveComponentSuffix() #>);
+    }
+
+    public void Initialize()
+    {
+        _group.OnEntityRemoved += _OnEntityRemoved;
+        _group.OnEntityUpdated += _OnEntityUpdated;
+        _context.OnEntityWillBeDestroyed += _OnEntityWillBeDestroyed;
+    }
+
+    public void TearDown()
+    {
+        using var _ = UnityEngine.Pool.ListPool<<#= entityName #>>.Get(out var buffer);
+        foreach (var e in _group.GetEntities(buffer))
+        {
+            e.<#= _componentName.RemoveComponentSuffix().LowercaseFirst() #>.Dispose();
+        }
+
+        _group.OnEntityRemoved -= _OnEntityRemoved;
+        _group.OnEntityUpdated -= _OnEntityUpdated;
+        _context.OnEntityWillBeDestroyed -= _OnEntityWillBeDestroyed;
+    }
+
+    private static void OnEntityRemoved(
+        JCMG.EntitasRedux.IGroup<<#= entityName #>> group,
+        <#= entityName #> entity,
+        int index,
+        JCMG.EntitasRedux.IComponent component
+    )
+    {
+        if (component is System.IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+    }
+
+    private static void OnEntityUpdated(
+        JCMG.EntitasRedux.IGroup<<#= entityName #>> group,
+        <#= entityName #> entity,
+        int index,
+        JCMG.EntitasRedux.IComponent previousComponent,
+        JCMG.EntitasRedux.IComponent newComponent
+    )
+    {
+        if (previousComponent is System.IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+    }
+
+    private static void OnEntityWillBeDestroyed(JCMG.EntitasRedux.IContext context, JCMG.EntitasRedux.IEntity entity)
+    {
+        if (entity is <#= entityName #> e && e.has<#= _componentName.RemoveComponentSuffix() #>)
+        {
+            e.<#= _componentName.RemoveComponentSuffix().LowercaseFirst() #>.Dispose();
+        }
+    }
+}
+
+<#+
+    private readonly string _componentName;
+    private readonly string _contextName;
+
+    public string SystemName => $"DisposeOf{_contextName.RemoveContextSuffix()}{_componentName.RemoveComponentSuffix()}System";
+
+    internal SystemTemplate(string componentName, string contextName)
+    {
+        _componentName = componentName ?? throw new ArgumentNullException(nameof(componentName));
+        _contextName = contextName ?? throw new ArgumentNullException(nameof(contextName));
+    }
+#>

@@ -1,0 +1,43 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ import namespace="Entitas" #>
+
+<#
+    var contextName = _context.AddContextSuffix();
+    var entityName = _context.AddEntitySuffix();
+#>
+
+public partial class <#= contextName #>
+{
+    public <#= entityName #> CreateEntity(CorundumGames.Data.EntityDefinition<<#= entityName #>> definition)
+    {
+        var entity = CreateEntity();
+
+        if (definition != null)
+        {
+            var componentCount = definition.Components.Count;
+            for (int i = 0; i < componentCount; ++i)
+            {
+                var component = definition.Components[i];
+                var index = definition.ComponentIndexes[i];
+
+                UnityEngine.Assertions.Assert.IsTrue(
+                    index >= 0,
+                    $"{component.GetType()} (index {index}) can't be cloned into a <#= entityName #>"
+                );
+
+                entity.CloneComponent(index, component);
+            }
+        }
+
+        return entity;
+    }
+}
+
+<#+
+    private readonly string _context;
+
+    internal CreateEntityFromDefinitionTemplate(string context)
+    {
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+    }
+#>

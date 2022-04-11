@@ -1,0 +1,82 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ import namespace="Entitas" #>
+
+<#
+    var contextName = _context.AddContextSuffix();
+    var entityName = _context.AddEntitySuffix();
+#>
+
+public partial class <#= contextName #> : System.IDisposable
+{
+    private bool _disposed;
+    private TNRD.Reflectives.ReflectiveField<System.Collections.Generic.Dictionary<string, Entitas.IEntityIndex>> _reflectiveIndexes;
+
+    public void ActivateIndexes()
+    {
+        foreach (var i in EntityIndexes)
+        {
+            i?.Activate();
+        }
+    }
+
+    public void DeactivateIndexes()
+    {
+        foreach (var i in EntityIndexes)
+        {
+            i?.Deactivate();
+        }
+    }
+
+    public System.Collections.Generic.IReadOnlyCollection<Entitas.IEntityIndex> EntityIndexes
+    {
+        get
+        {
+            _reflectiveIndexes ??= new TNRD.Reflectives.ReflectiveField<System.Collections.Generic.Dictionary<string, Entitas.IEntityIndex>>(
+                typeof(Entitas.Context<<#= entityName #>>),
+                "_entityIndices",
+                TNRD.Reflectives.ReflectiveClass.DEFAULT_FLAGS,
+                this
+            );
+
+            return _reflectiveIndexes.GetValue().Values;
+        }
+    }
+
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+            DeactivateIndexes();
+
+            try
+            {
+                DestroyAllEntities();
+            }
+            catch (Entitas.ContextStillHasRetainedEntitiesException e)
+            {
+                UnityEngine.Debug.LogWarning(e);
+            }
+
+            ResetCreationIndex();
+            RemoveAllEventHandlers();
+            ClearComponentPools();
+
+            System.GC.SuppressFinalize(this);
+            _disposed = true;
+        }
+    }
+
+    ~<#= contextName #>()
+    {
+        Dispose();
+    }
+}
+
+<#+
+    private readonly string _context;
+
+    internal DisposableContextGeneratorTemplate(string context)
+    {
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+    }
+#>

@@ -1,0 +1,35 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ import namespace="Entitas" #>
+<#@ import namespace="Entitas.CodeGeneration.Plugins" #>
+
+public static class ContextExtensions_PlayerIndex
+{
+<#
+    foreach (var component in _components)
+    {
+        foreach (var context in component.Contexts)
+        {
+            var entityType = context.RemoveContextSuffix().AddEntitySuffix();
+            var componentName = component.Symbol.Name.ToComponentName(true);
+#>
+    public static <#= entityType #> Get<#= componentName #>(this Entitas.IContext<<#= entityType #>> context, CorundumGames.Chromavaders.Common.Player player)
+    {
+        var index = (Entitas.PrimaryEntityIndex<<#= entityType #>, CorundumGames.Chromavaders.Common.Player>)(context.GetEntityIndex(Contexts.Player<#= componentName #>));
+        return index.GetEntity(player);
+    }
+
+<#
+        }
+
+    }
+#>
+}
+
+<#+
+    private readonly Data[] _components;
+    internal ContextsExtensionsTemplate(Data[] components)
+    {
+        _components = components ?? throw new ArgumentNullException(nameof(components));
+
+    }
+#>

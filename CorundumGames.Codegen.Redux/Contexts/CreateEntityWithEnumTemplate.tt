@@ -1,0 +1,31 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ import namespace="DesperateDevs.Utils" #>
+
+public partial class Contexts
+{
+    public Entitas.Entity CreateEntity(ContextType type)
+    {
+        switch (type)
+        {
+<#
+    foreach (var c in _contextNames)
+    {
+#>
+            case ContextType.<#= c #>:
+                return <#= c.LowercaseFirst() #>.CreateEntity();
+<#
+    } #>
+            default:
+                return null;
+        }
+    }
+}
+
+<#+
+    private readonly string[] _contextNames;
+
+    internal CreateEntityWithEnumTemplate(string[] contextNames)
+    {
+        _contextNames = contextNames ?? throw new ArgumentNullException(nameof(contextNames));
+    }
+#>

@@ -1,0 +1,69 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ import namespace="Entitas" #>
+
+<#
+    var entityName = _context.AddEntitySuffix();
+#>
+
+namespace CorundumGames.Data
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using Sirenix.Utilities;
+    using UnityEngine;
+    using UnityEngine.Assertions;
+
+    [CreateAssetMenu(menuName = "Entitas/<#= _context #> Entity")]
+    public sealed class <#= entityName #>Definition : CorundumGames.Data.EntityDefinition<<#= entityName #>>
+    {
+#if UNITY_EDITOR
+        /// <summary>
+        /// Populate componentIndexes with the index of each component to optimize lookup.
+        /// Automatically called when the code is recompiled OR the list of components on an entity definition changes.
+        /// </summary>
+        private void OnValidate()
+        {
+            componentIndexes = new int[components.Length];
+
+            for (var i = 0; i < components.Length; ++i)
+            {
+                if (components[i] == null)
+                {
+                    componentIndexes[i] = -1;
+                }
+                else
+                {
+                    var componentType = components[i].GetType();
+                    var index = Array.IndexOf(<#= _context #>ComponentsLookup.componentTypes, componentType);
+
+                    Assert.AreNotEqual(-1, index, $"Couldn't find an index for {componentType} in <#= _context #>ComponentsLookup.componentTypes");
+
+                    componentIndexes[i] = index;
+                }
+            }
+        }
+
+        private IEnumerable<Type> GetComponentTypes()
+        {
+            return <#= _context #>ComponentsLookup
+                .componentTypes
+                .Where(t => t.GetAttribute<SerializableAttribute>(true) != null)
+                .Except(
+                    components?
+                        .Where(c => c != null)
+                        .Select(c => c.GetType()) ?? Array.Empty<Type>()
+                );
+        }
+#endif
+    }
+}
+
+<#+
+    private readonly string _context;
+
+    internal ContextEntityDefinitionTemplate(string context)
+    {
+        _context = context ?? throw new ArgumentNullException(nameof(context));
+    }
+#>

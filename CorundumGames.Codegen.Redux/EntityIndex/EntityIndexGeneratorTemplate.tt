@@ -1,0 +1,477 @@
+<#@ template language="C#" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="Entitas.CodeGeneration.Plugins" #>
+<#@ import namespace="DesperateDevs.Utils" #>
+<#@ import namespace="System.Linq" #>
+
+public partial class Contexts
+{
+    private System.Collections.Generic.HashSet<Entitas.IEntityIndex> _indexes =
+        new System.Collections.Generic.HashSet<Entitas.IEntityIndex>(64);
+<#
+    foreach (var d in _data)
+    {
+        var indexName = IndexName(d);
+#>
+    public const string <#= indexName #> = "<#= indexName #>";
+<#
+    }
+#>
+
+    [Entitas.CodeGeneration.Attributes.PostConstructor]
+    public void InitializeEntityIndices()
+    {
+<#
+    foreach (var d in _data)
+    {
+        foreach (var ContextName in d.GetContextNames())
+        {
+            var contextName = ContextName.LowercaseFirst();
+            var IndexType = d.GetEntityIndexType();
+
+            if (d.IsCustom())
+            {
+#>
+        {
+            var index = new <#= IndexType #>(<#= contextName #>);
+            <#= contextName #>.AddEntityIndex(index);
+            _indexes.Add(index);
+        }
+
+<#
+            }
+            else
+            {
+#>
+        {
+            var index = new <#= IndexType #><<#= ContextName #>Entity, <#= d.GetKeyType() #>>(
+                <#= IndexName(d) #>,
+                <#= contextName #>.GetGroup(<#= ContextName #>Matcher.<#= d.GetEntityIndexName() #>),
+                (e, c) => ((<#= d.GetComponentType() #>)c).<#= d.GetMemberName() #>
+            );
+            <#= contextName #>.AddEntityIndex(index);
+            _indexes.Add(index);
+        }
+
+<#
+            }
+        }
+    }
+#>
+    }
+}
+
+public static class ContextsExtensions {
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetGridEntities(this GameContext context, Player player) {
+        return ((AllGridEntitiesIndex)(context.GetEntityIndex(Contexts.AllGridEntitiesIndex))).GetGridEntities(player);
+    }
+
+
+    public static GameEntity GetBlockAtCell(this GameContext context, Player player, UnityEngine.Vector2Int cell) {
+        return ((BlockCellIndex)(context.GetEntityIndex(Contexts.BlockCellIndex))).GetBlockAtCell(player, cell);
+    }
+
+    public static GameEntity GetBlockAtCell(this GameContext context, Player player, int x, int y) {
+        return ((BlockCellIndex)(context.GetEntityIndex(Contexts.BlockCellIndex))).GetBlockAtCell(player, x, y);
+    }
+
+
+    public static GameEntity GetBlockGrid(this GameContext context, Player player) {
+        return ((BlockGridIndex)(context.GetEntityIndex(Contexts.BlockGridIndex))).GetBlockGrid(player);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetBlocks(this GameContext context, Player index) {
+        return ((BlockIndex)(context.GetEntityIndex(Contexts.BlockIndex))).GetBlocks(index);
+    }
+
+
+    public static TimerEntity GetBonusLevelTimer(this TimerContext context, Player index) {
+        return ((BonusLevelTimerIndex)(context.GetEntityIndex(Contexts.BonusLevelTimerIndex))).GetBonusLevelTimer(index);
+    }
+
+
+    public static UiEntity GetBonusRoundIntroTimeline(this UiContext context, Player index) {
+        return ((BonusRoundIntroTimelineIndex)(context.GetEntityIndex(Contexts.BonusRoundIntroTimelineIndex))).GetBonusRoundIntroTimeline(index);
+    }
+
+
+    public static UiEntity GetBonusRoundOutroTimeline(this UiContext context, Player index) {
+        return ((BonusRoundOutroTimelineIndex)(context.GetEntityIndex(Contexts.BonusRoundOutroTimelineIndex))).GetBonusRoundOutroTimeline(index);
+    }
+
+
+    public static UiEntity GetBonusTimerDisplay(this UiContext context, Player index) {
+        return ((BonusTimerDisplayIndex)(context.GetEntityIndex(Contexts.BonusTimerDisplayIndex))).GetBonusTimerDisplay(index);
+    }
+
+
+    public static GlobalEntity GetBoolSetting(this GlobalContext context, string key) {
+        return ((BoolSettingIndex)(context.GetEntityIndex(Contexts.BoolSettingIndex))).GetBoolSetting(key);
+    }
+
+
+    public static TimerEntity GetDumpingGarbageTimer(this TimerContext context, Player index) {
+        return ((DumpingGarbageTimerIndex)(context.GetEntityIndex(Contexts.DumpingGarbageTimerIndex))).GetDumpingGarbageTimer(index);
+    }
+
+
+    public static System.Collections.Generic.HashSet<StatusEntity> GetEnemiesShotCounter(this StatusContext context, Player index) {
+        return ((EnemiesShotIndex)(context.GetEntityIndex(Contexts.EnemiesShotIndex))).GetEnemiesShotCounter(index);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetEnemyBullets(this GameContext context, Player index) {
+        return ((EnemyBulletIndex)(context.GetEntityIndex(Contexts.EnemyBulletIndex))).GetEnemyBullets(index);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetEnemies(this GameContext context, Player index) {
+        return ((EnemyIndex)(context.GetEntityIndex(Contexts.EnemyIndex))).GetEnemies(index);
+    }
+
+
+    public static StatusEntity GetEnemySpawner(this StatusContext context, Player player) {
+        return ((EnemySpawnerIndex)(context.GetEntityIndex(Contexts.EnemySpawnerIndex))).GetEnemySpawner(player);
+    }
+
+
+    public static GameEntity GetEnemyWave(this GameContext context, Player player) {
+        return ((EnemyWaveIndex)(context.GetEntityIndex(Contexts.EnemyWaveIndex))).GetEnemyWave(player);
+    }
+
+
+    public static GlobalEntity GetFloatSetting(this GlobalContext context, string key) {
+        return ((FloatSettingIndex)(context.GetEntityIndex(Contexts.FloatSettingIndex))).GetFloatSetting(key);
+    }
+
+
+    public static GameEntity GetEntityWithGameObject(this GameContext context, UnityEngine.GameObject gameObject) {
+        return ((Entitas.PrimaryEntityIndex<GameEntity, UnityEngine.GameObject>)context.GetEntityIndex(Contexts.GameObject)).GetEntity(gameObject);
+    }
+
+    public static UiEntity GetEntityWithGameObject(this UiContext context, UnityEngine.GameObject gameObject) {
+        return ((Entitas.PrimaryEntityIndex<UiEntity, UnityEngine.GameObject>)context.GetEntityIndex(Contexts.GameObject)).GetEntity(gameObject);
+    }
+
+    public static GlobalEntity GetEntityWithGameObject(this GlobalContext context, UnityEngine.GameObject gameObject) {
+        return ((Entitas.PrimaryEntityIndex<GlobalEntity, UnityEngine.GameObject>)context.GetEntityIndex(Contexts.GameObject)).GetEntity(gameObject);
+    }
+
+    public static GameEntity GetGameOverPlayableDirector(this GameContext context, Player player) {
+        return ((GameOverPlayableDirectorIndex)(context.GetEntityIndex(Contexts.GameOverPlayableDirectorIndex))).GetGameOverPlayableDirector(player);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetEntitiesAtCell(this GameContext context, Player player, UnityEngine.Vector2Int cell) {
+        return ((GridEntityIndex)(context.GetEntityIndex(Contexts.GridEntityIndex))).GetEntitiesAtCell(player, cell);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetHeldBlocks(this GameContext context, Player player) {
+        return ((HeldBlockIndex)(context.GetEntityIndex(Contexts.HeldBlockIndex))).GetHeldBlocks(player);
+    }
+
+
+    public static GameEntity GetEntityWithId(this GameContext context, int id) {
+        return ((Entitas.PrimaryEntityIndex<GameEntity, int>)context.GetEntityIndex(Contexts.Id)).GetEntity(id);
+    }
+
+    public static TimerEntity GetEntityWithId(this TimerContext context, int id) {
+        return ((Entitas.PrimaryEntityIndex<TimerEntity, int>)context.GetEntityIndex(Contexts.Id)).GetEntity(id);
+    }
+
+    public static GlobalEntity GetEntityWithId(this GlobalContext context, int id) {
+        return ((Entitas.PrimaryEntityIndex<GlobalEntity, int>)context.GetEntityIndex(Contexts.Id)).GetEntity(id);
+    }
+
+    public static UiEntity GetEntityWithId(this UiContext context, int id) {
+        return ((Entitas.PrimaryEntityIndex<UiEntity, int>)context.GetEntityIndex(Contexts.Id)).GetEntity(id);
+    }
+
+    public static GlobalEntity GetIntSetting(this GlobalContext context, string key) {
+        return ((IntSettingIndex)(context.GetEntityIndex(Contexts.IntSettingIndex))).GetIntSetting(key);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetLivingEnemies(this GameContext context, Player index) {
+        return ((LivingEnemyIndex)(context.GetEntityIndex(Contexts.LivingEnemyIndex))).GetLivingEnemies(index);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetMatchingBlocks(this GameContext context, Player index) {
+        return ((MatchingBlockIndex)(context.GetEntityIndex(Contexts.MatchingBlockIndex))).GetMatchingBlocks(index);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetMovingBlocks(this GameContext context, Player index) {
+        return ((MovingBlockIndex)(context.GetEntityIndex(Contexts.MovingBlockIndex))).GetMovingBlocks(index);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetMovingEntities(this GameContext context, Player index) {
+        return ((MovingEntityIndex)(context.GetEntityIndex(Contexts.MovingEntityIndex))).GetMovingEntities(index);
+    }
+
+
+    public static GameEntity GetEntityWithName(this GameContext context, string name) {
+        return ((Entitas.PrimaryEntityIndex<GameEntity, string>)context.GetEntityIndex(Contexts.Name)).GetEntity(name);
+    }
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetEntitiesWithParent(this GameContext context, int parentId) {
+        return ((Entitas.EntityIndex<GameEntity, int>)context.GetEntityIndex(Contexts.Parent)).GetEntities(parentId);
+    }
+
+    public static System.Collections.Generic.HashSet<UiEntity> GetEntitiesWithParent(this UiContext context, int parentId) {
+        return ((Entitas.EntityIndex<UiEntity, int>)context.GetEntityIndex(Contexts.Parent)).GetEntities(parentId);
+    }
+
+    public static System.Collections.Generic.HashSet<GlobalEntity> GetEntitiesWithParent(this GlobalContext context, int parentId) {
+        return ((Entitas.EntityIndex<GlobalEntity, int>)context.GetEntityIndex(Contexts.Parent)).GetEntities(parentId);
+    }
+
+    public static System.Collections.Generic.HashSet<TimerEntity> GetPauseIfPlayerDeadTimers(this TimerContext context, Player index) {
+        return ((PauseIfPlayerDeadTimerIndex)(context.GetEntityIndex(Contexts.PauseIfPlayerDeadTimerIndex))).GetPauseIfPlayerDeadTimers(index);
+    }
+
+
+    public static TimerEntity GetPendingRisingGarbageTimer(this TimerContext context, Player index) {
+        return ((PendingRisingGarbageTimerIndex)(context.GetEntityIndex(Contexts.PendingRisingGarbageTimerIndex))).GetPendingRisingGarbageTimer(index);
+    }
+
+
+    public static UiEntity GetPendingWaveDisplay(this UiContext context, Player index) {
+        return ((PendingWaveDisplayIndex)(context.GetEntityIndex(Contexts.PendingWaveDisplayIndex))).GetPendingWaveDisplay(index);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetPlayerBullets(this GameContext context, Player index) {
+        return ((PlayerBulletIndex)(context.GetEntityIndex(Contexts.PlayerBulletIndex))).GetPlayerBullets(index);
+    }
+
+
+    public static TimerEntity GetPlayerMoveCooldownTimer(this TimerContext context, Player index) {
+        return ((PlayerMoveCooldownTimerIndex)(context.GetEntityIndex(Contexts.PlayerMoveCooldownTimerIndex))).GetPlayerMoveCooldownTimer(index);
+    }
+
+
+    public static TimerEntity GetPlayerRespawnInvincibilityTimer(this TimerContext context, Player index) {
+        return ((PlayerRespawnInvincibilityTimerIndex)(context.GetEntityIndex(Contexts.PlayerRespawnInvincibilityTimerIndex))).GetPlayerRespawnInvincibilityTimer(index);
+    }
+
+
+    public static TimerEntity GetPlayerRespawnTimer(this TimerContext context, Player index) {
+        return ((PlayerRespawnTimerIndex)(context.GetEntityIndex(Contexts.PlayerRespawnTimerIndex))).GetPlayerRespawnTimer(index);
+    }
+
+
+    public static GameEntity GetPlayerShip(this GameContext context, Player player) {
+        return ((PlayerShipIndex)(context.GetEntityIndex(Contexts.PlayerShipIndex))).GetPlayerShip(player);
+    }
+
+
+    public static System.Collections.Generic.HashSet<GameEntity> GetEntitiesWithScene(this GameContext context, UnityEngine.SceneManagement.Scene scene) {
+        return ((Entitas.EntityIndex<GameEntity, UnityEngine.SceneManagement.Scene>)context.GetEntityIndex(Contexts.Scene)).GetEntities(scene);
+    }
+
+    public static System.Collections.Generic.HashSet<TimerEntity> GetEntitiesWithScene(this TimerContext context, UnityEngine.SceneManagement.Scene scene) {
+        return ((Entitas.EntityIndex<TimerEntity, UnityEngine.SceneManagement.Scene>)context.GetEntityIndex(Contexts.Scene)).GetEntities(scene);
+    }
+
+    public static System.Collections.Generic.HashSet<StatusEntity> GetEntitiesWithScene(this StatusContext context, UnityEngine.SceneManagement.Scene scene) {
+        return ((Entitas.EntityIndex<StatusEntity, UnityEngine.SceneManagement.Scene>)context.GetEntityIndex(Contexts.Scene)).GetEntities(scene);
+    }
+
+    public static System.Collections.Generic.HashSet<UiEntity> GetEntitiesWithScene(this UiContext context, UnityEngine.SceneManagement.Scene scene) {
+        return ((Entitas.EntityIndex<UiEntity, UnityEngine.SceneManagement.Scene>)context.GetEntityIndex(Contexts.Scene)).GetEntities(scene);
+    }
+
+    public static UiEntity GetScoreDisplay(this UiContext context, Player index) {
+        return ((ScoreDisplayIndex)(context.GetEntityIndex(Contexts.ScoreDisplayIndex))).GetScoreDisplay(index);
+    }
+
+
+    public static GlobalEntity GetEntityWithSettingKey(this GlobalContext context, string key) {
+        return ((Entitas.PrimaryEntityIndex<GlobalEntity, string>)context.GetEntityIndex(Contexts.SettingKey)).GetEntity(key);
+    }
+
+    public static System.Collections.Generic.HashSet<StatusEntity> GetShotsFiredCounter(this StatusContext context, Player index) {
+        return ((ShotsFiredIndex)(context.GetEntityIndex(Contexts.ShotsFiredIndex))).GetShotsFiredCounter(index);
+    }
+
+
+    public static TimerEntity GetSpawnWaveDelayTimer(this TimerContext context, Player index) {
+        return ((SpawnWaveDelayTimerIndex)(context.GetEntityIndex(Contexts.SpawnWaveDelayTimerIndex))).GetSpawnWaveDelayTimer(index);
+    }
+
+
+    public static GlobalEntity GetStringSetting(this GlobalContext context, string key) {
+        return ((StringSettingIndex)(context.GetEntityIndex(Contexts.StringSettingIndex))).GetStringSetting(key);
+    }
+
+
+    public static UiEntity GetWaveDisplay(this UiContext context, Player index) {
+        return ((WaveDisplayIndex)(context.GetEntityIndex(Contexts.WaveDisplayIndex))).GetWaveDisplay(index);
+    }
+
+
+    public static System.Collections.Generic.HashSet<StatusEntity> GetWavesClearedCounter(this StatusContext context, Player index) {
+        return ((WavesClearedIndex)(context.GetEntityIndex(Contexts.WavesClearedIndex))).GetWavesClearedCounter(index);
+    }
+
+}
+
+<#+
+    private readonly EntityIndexData[] _data;
+    private readonly IgnoreNamespacesConfig _ignoreNamespacesConfig;
+
+    public EntityIndexGeneratorTemplate(EntityIndexData[] data, IgnoreNamespacesConfig ignoreNamespacesConfig)
+    {
+        _data = data;
+        _ignoreNamespacesConfig = ignoreNamespacesConfig;
+    }
+
+        const string CLASS_TEMPLATE =
+        @"public partial class Contexts {
+
+    [Entitas.CodeGeneration.Attributes.PostConstructor]
+    public void InitializeEntityIndices() {
+${addIndices}
+    }
+}
+
+public static class ContextsExtensions {
+
+${getIndices}
+}";
+
+
+        const string ADD_INDEX_TEMPLATE =
+        @"        ${contextName}.AddEntityIndex(new ${IndexType}<${ContextName}Entity, ${KeyType}>(
+            ${IndexName},
+            ${contextName}.GetGroup(${ContextName}Matcher.${Matcher}),
+            (e, c) => ((${ComponentType})c).${MemberName}));";
+
+        const string ADD_CUSTOM_INDEX_TEMPLATE =
+        @"        ${contextName}.AddEntityIndex(new ${IndexType}(${contextName}));";
+
+        const string GET_INDEX_TEMPLATE =
+        @"    public static System.Collections.Generic.HashSet<${ContextName}Entity> GetEntitiesWith${IndexName}(this ${ContextName}Context context, ${KeyType} ${MemberName}) {
+        return ((${IndexType}<${ContextName}Entity, ${KeyType}>)context.GetEntityIndex(Contexts.${IndexName})).GetEntities(${MemberName});
+    }";
+
+        const string GET_PRIMARY_INDEX_TEMPLATE =
+        @"    public static ${ContextName}Entity GetEntityWith${IndexName}(this ${ContextName}Context context, ${KeyType} ${MemberName}) {
+        return ((${IndexType}<${ContextName}Entity, ${KeyType}>)context.GetEntityIndex(Contexts.${IndexName})).GetEntity(${MemberName});
+    }";
+
+        const string CUSTOM_METHOD_TEMPLATE =
+        @"    public static ${ReturnType} ${MethodName}(this ${ContextName}Context context, ${methodArgs}) {
+        return ((${IndexType})(context.GetEntityIndex(Contexts.${IndexName}))).${MethodName}(${args});
+    }
+";
+
+
+    string generateAddMethods(EntityIndexData data)
+    {
+        return string.Join("\n", data.GetContextNames()
+            .Aggregate(new List<string>(), (addMethods, contextName) =>
+            {
+                addMethods.Add(generateAddMethod(data, contextName));
+                return addMethods;
+            }).ToArray());
+    }
+
+    string generateAddMethod(EntityIndexData data, string contextName)
+    {
+        return data.IsCustom()
+            ? generateCustomMethods(data)
+            : generateMethods(data, contextName);
+    }
+
+    string generateCustomMethods(EntityIndexData data)
+    {
+        return ADD_CUSTOM_INDEX_TEMPLATE
+            .Replace("${contextName}", data.GetContextNames()[0].LowercaseFirst())
+            .Replace("${IndexType}", data.GetEntityIndexType());
+    }
+
+    string generateMethods(EntityIndexData data, string contextName)
+    {
+        return ADD_INDEX_TEMPLATE
+            .Replace("${contextName}", contextName.LowercaseFirst())
+            .Replace("${ContextName}", contextName)
+            .Replace("${IndexName}", data.GetHasMultiple()
+                ? data.GetEntityIndexName() + data.GetMemberName().UppercaseFirst()
+                : data.GetEntityIndexName())
+            .Replace("${Matcher}", data.GetEntityIndexName())
+            .Replace("${IndexType}", data.GetEntityIndexType())
+            .Replace("${KeyType}", data.GetKeyType())
+            .Replace("${ComponentType}", data.GetComponentType())
+            .Replace("${MemberName}", data.GetMemberName())
+            .Replace("${componentName}", data.GetComponentType()
+                .ToComponentName(_ignoreNamespacesConfig.ignoreNamespaces)
+                .LowercaseFirst()
+                .AddPrefixIfIsKeyword());
+    }
+
+    string generateGetMethods(EntityIndexData data)
+    {
+        return string.Join("\n\n", data.GetContextNames()
+            .Aggregate(new List<string>(), (getMethods, contextName) =>
+            {
+                getMethods.Add(generateGetMethod(data, contextName));
+                return getMethods;
+            }).ToArray());
+    }
+
+    string generateGetMethod(EntityIndexData data, string contextName)
+    {
+        var template = "";
+        if (data.GetEntityIndexType() == "Entitas.EntityIndex")
+        {
+            template = GET_INDEX_TEMPLATE;
+        }
+        else if (data.GetEntityIndexType() == "Entitas.PrimaryEntityIndex")
+        {
+            template = GET_PRIMARY_INDEX_TEMPLATE;
+        }
+        else
+        {
+            return getCustomMethods(data);
+        }
+
+        return template
+            .Replace("${ContextName}", contextName)
+            .Replace("${IndexName}", data.GetHasMultiple()
+                ? data.GetEntityIndexName() + data.GetMemberName().UppercaseFirst()
+                : data.GetEntityIndexName())
+            .Replace("${IndexType}", data.GetEntityIndexType())
+            .Replace("${KeyType}", data.GetKeyType())
+            .Replace("${MemberName}", data.GetMemberName());
+    }
+
+    string getCustomMethods(EntityIndexData data)
+    {
+        return string.Join("\n", data.GetCustomMethods()
+            .Select(m => CUSTOM_METHOD_TEMPLATE
+                .Replace("${ReturnType}", m.returnType)
+                .Replace("${MethodName}", m.methodName)
+                .Replace("${ContextName}", data.GetContextNames()[0])
+                .Replace("${methodArgs}",
+                    string.Join(", ", m.parameters.Select(p => p.type + " " + p.name).ToArray()))
+                .Replace("${IndexType}", data.GetEntityIndexType())
+                .Replace("${IndexName}", data.GetHasMultiple()
+                    ? data.GetEntityIndexName() + data.GetMemberName().UppercaseFirst()
+                    : data.GetEntityIndexName())
+                .Replace("${args}", string.Join(", ", m.parameters.Select(p => p.name).ToArray()))).ToArray());
+    }
+
+    private static string IndexName(EntityIndexData d)
+    {
+        return d.GetHasMultiple()
+            ? d.GetEntityIndexName() + d.GetMemberName().UppercaseFirst()
+            : d.GetEntityIndexName();
+    }
+#>

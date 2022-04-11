@@ -1,0 +1,28 @@
+<#@ template language="C#" hostspecific="false" visibility="internal" #>
+<#@ import namespace="System.Collections.Generic" #>
+
+public sealed class <#= _featureName #> : Feature
+{
+    public <#= _featureName #>(Contexts contexts) : base("<#= _featureName #>")
+    {
+<#
+    foreach (var name in _systemNames)
+    {
+#>
+        Add(new <#= name #>(contexts));
+<#
+    }
+#>
+    }
+}
+
+<#+
+    private readonly string _featureName;
+    private readonly IReadOnlyCollection<string> _systemNames;
+
+    internal FeatureGeneratorTemplate(string featureName, IReadOnlyCollection<string> systemNames)
+    {
+        _featureName = featureName ?? throw new ArgumentNullException(nameof(featureName));
+        _systemNames = systemNames ?? throw new ArgumentNullException(nameof(systemNames));
+    }
+#>
