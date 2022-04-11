@@ -64,7 +64,7 @@ namespace CorundumGames.Codegen.Redux.DisposableComponent
 
         private IEnumerable<string> GenerateSystemNames(Data data)
         {
-            var componentName = data.Name.ToComponentName(true);
+            var componentName = data.Name.ToComponentName();
 
             return data.Contexts.Select(context => $"DisposeOf{context}{componentName.RemoveComponentSuffix()}System");
         }
