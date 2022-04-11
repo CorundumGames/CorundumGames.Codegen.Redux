@@ -3,3 +3,10 @@ obj/
 /packages/
 riderModule.iml
 /_ReSharper.Caches/
+
+# Generated Code
+*Template.cs
+
+# Rider
+.idea/**
+*.sln.DotSettings.user
