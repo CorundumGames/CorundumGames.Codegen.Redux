@@ -12,7 +12,7 @@ namespace CorundumGames.Codegen.Redux.DisposableComponent
     public sealed class DisposableComponentGenerator : AbstractGenerator
     {
         private const string FeatureName = "DisposeDataFeature";
-        public override string Name => "Disposable Component Generator";
+        public override string Name => "Disposable Component System Generator";
 
         public override CodeGenFile[] Generate(CodeGeneratorData[] data)
         {
