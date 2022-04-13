@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
+using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using Genesis.Plugin;
 using Genesis.Shared;
-using JCMG.EntitasRedux;
 using JetBrains.Annotations;
-using Microsoft.CodeAnalysis;
-using IComponent = System.ComponentModel.IComponent;
 
 namespace CorundumGames.Codegen.Redux.DisposableComponent
 {
