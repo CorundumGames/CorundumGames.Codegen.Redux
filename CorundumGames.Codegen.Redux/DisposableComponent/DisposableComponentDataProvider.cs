@@ -12,7 +12,7 @@ using IComponent = System.ComponentModel.IComponent;
 namespace CorundumGames.Codegen.Redux.DisposableComponent
 {
     [PublicAPI]
-    public sealed class DataProvider : IDataProvider, IConfigurable, ICacheable
+    public sealed class DisposableComponentDataProvider : IDataProvider, IConfigurable, ICacheable
     {
         private static readonly string DisposableName = typeof(IDisposable).FullName!;
         private static readonly string ComponentName = typeof(IComponent).FullName!;
