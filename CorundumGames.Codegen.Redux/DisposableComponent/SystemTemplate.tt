@@ -20,7 +20,7 @@ public sealed class <#= systemName #> : JCMG.EntitasRedux.IInitializeSystem, JCM
 
     public <#= systemName #>(Contexts contexts)
     {
-        _context = contexts.<#= contextName.LowercaseFirst() #>;
+        _context = contexts.<#= contextName #>;
         _group = _context.GetGroup(<#= matcherName #>.<#= _componentName.RemoveComponentSuffix() #>);
     }
 
@@ -36,7 +36,7 @@ public sealed class <#= systemName #> : JCMG.EntitasRedux.IInitializeSystem, JCM
         using var _ = UnityEngine.Pool.ListPool<<#= entityName #>>.Get(out var buffer);
         foreach (var e in _group.GetEntities(buffer))
         {
-            e.<#= _componentName.RemoveComponentSuffix().LowercaseFirst() #>.Dispose();
+            e.<#= _componentName.RemoveComponentSuffix() #>.Dispose();
         }
 
         _group.OnEntityRemoved -= _OnEntityRemoved;
@@ -73,9 +73,9 @@ public sealed class <#= systemName #> : JCMG.EntitasRedux.IInitializeSystem, JCM
 
     private static void OnEntityWillBeDestroyed(JCMG.EntitasRedux.IContext context, JCMG.EntitasRedux.IEntity entity)
     {
-        if (entity is <#= entityName #> e && e.has<#= _componentName.RemoveComponentSuffix() #>)
+        if (entity is <#= entityName #> e && e.Has<#= _componentName.RemoveComponentSuffix() #>)
         {
-            e.<#= _componentName.RemoveComponentSuffix().LowercaseFirst() #>.Dispose();
+            e.<#= _componentName.RemoveComponentSuffix() #>.Dispose();
         }
     }
 }
