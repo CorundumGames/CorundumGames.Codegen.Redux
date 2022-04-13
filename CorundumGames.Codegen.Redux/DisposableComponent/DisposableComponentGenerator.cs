@@ -9,7 +9,7 @@ using JetBrains.Annotations;
 namespace CorundumGames.Codegen.Redux.DisposableComponent
 {
     [PublicAPI]
-    public sealed class Generator : AbstractGenerator
+    public sealed class DisposableComponentGenerator : AbstractGenerator
     {
         private const string FeatureName = "DisposeDataFeature";
         public override string Name => "Disposable Component Generator";
