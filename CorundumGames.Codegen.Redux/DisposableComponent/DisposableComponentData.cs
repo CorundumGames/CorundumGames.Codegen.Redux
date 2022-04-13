@@ -2,7 +2,7 @@ using Genesis.Plugin;
 
 namespace CorundumGames.Codegen.Redux.DisposableComponent
 {
-    internal sealed class Data : CodeGeneratorData
+    internal sealed class DisposableComponentData : CodeGeneratorData
     {
         // string keys to access the base dictionary with
         private const string NameKey = "DisposeData.Name";

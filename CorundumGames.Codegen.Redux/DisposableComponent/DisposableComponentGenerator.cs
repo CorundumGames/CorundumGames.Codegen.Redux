@@ -17,7 +17,7 @@ namespace CorundumGames.Codegen.Redux.DisposableComponent
         public override CodeGenFile[] Generate(CodeGeneratorData[] data)
         {
             var types = data
-                .OfType<Data>()
+                .OfType<DisposableComponentData>()
                 .ToArray();
 
             var names = types
@@ -48,7 +48,7 @@ namespace CorundumGames.Codegen.Redux.DisposableComponent
 
         }
 
-        private IEnumerable<CodeGenFile> GenerateSystems(Data data)
+        private IEnumerable<CodeGenFile> GenerateSystems(DisposableComponentData data)
         {
             return from contextName in data.Contexts
                 let template = new SystemTemplate(data.Name, contextName)
@@ -62,7 +62,7 @@ namespace CorundumGames.Codegen.Redux.DisposableComponent
 
 
 
-        private IEnumerable<string> GenerateSystemNames(Data data)
+        private IEnumerable<string> GenerateSystemNames(DisposableComponentData data)
         {
             var componentName = data.Name.ToComponentName();
 

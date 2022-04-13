@@ -40,7 +40,7 @@ namespace CorundumGames.Codegen.Redux.DisposableComponent
             return _assembliesConfig
                 .FilterTypeSymbols(_memoryCache.GetNamedTypeSymbols())
                 .Where(type=> type.ImplementsInterface<IComponent>() && type.ImplementsInterface<IDisposable>())
-                .Select(type => new Data
+                .Select(type => new DisposableComponentData
                 {
                     Name = type.TypeName,
                     Contexts = GetContexts(type),
