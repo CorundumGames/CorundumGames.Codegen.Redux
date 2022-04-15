@@ -35,6 +35,22 @@
         <Generator>TextTemplatingFilePreprocessor</Generator>
         <LastGenOutput>TypeEnumGeneratorTemplate.cs</LastGenOutput>
       </None>
+      <None Update="EntityBehaviour\EntityBehaviourTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>EntityBehaviourTemplate.cs</LastGenOutput>
+      </None>
+      <None Update="IndexByEnum\ContextMethodTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>ContextMethodTemplate.cs</LastGenOutput>
+      </None>
+      <None Update="IndexByEnum\ContextsExtensionsTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>ContextsExtensionsTemplate.cs</LastGenOutput>
+      </None>
+      <None Update="InitFromUnityComponent\SystemTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>SystemTemplate.cs</LastGenOutput>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -59,6 +75,33 @@
         <DesignTime>True</DesignTime>
         <DependentUpon>TypeEnumGeneratorTemplate.tt</DependentUpon>
       </Compile>
+      <Compile Update="DisposableComponent\SystemTemplate.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>SystemTemplate.tt</DependentUpon>
+      </Compile>
+      <Compile Update="EntityBehaviour\EntityBehaviourTemplate.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>EntityBehaviourTemplate.tt</DependentUpon>
+      </Compile>
+      <Compile Update="IndexByEnum\ContextMethodTemplate.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>ContextMethodTemplate.tt</DependentUpon>
+      </Compile>
+      <Compile Update="IndexByEnum\ContextsExtensionsTemplate.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>ContextsExtensionsTemplate.tt</DependentUpon>
+      </Compile>
+      <Compile Update="InitFromUnityComponent\SystemTemplate.cs">
+        <DependentUpon>SystemTemplate.tt</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CorundumGames.Codegen.Redux.Runtime\CorundumGames.Codegen.Redux.Runtime.csproj" />
     </ItemGroup>
 
 </Project>

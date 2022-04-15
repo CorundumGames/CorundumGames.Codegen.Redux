@@ -1,0 +1,36 @@
+<#@ template language="C#" hostspecific="false" visibility="internal" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="EntitasRedux.Core.Plugins" #>
+<#@ import namespace="Genesis.Plugin" #>
+
+public static class ContextExtensions_EnumIndex
+{
+<#
+    foreach (var d in _data)
+    {
+        foreach (var context in d.Contexts)
+        {
+            var entityType = context.RemoveContextSuffix().AddEntitySuffix();
+            var enumName = d.EnumMember.memberTypeSymbol.GetFullTypeName();
+            var componentName = d.ComponentSymbol.Name.ToComponentName();
+#>
+    public static <#= entityType #> Get<#= componentName #>(this JCMG.EntitasRedux.IContext<<#= entityType #>> context, <#= enumName #> value)
+    {
+        var index = (JCMG.EntitasRedux.PrimaryEntityIndex<<#= entityType #>, <#= enumName #>>)(context.GetEntityIndex(Contexts.<#= enumName.ShortTypeName() #><#= componentName #>));
+        return index.GetEntity(value);
+    }
+
+<#
+        }
+    }
+#>
+}
+
+<#+
+    private readonly IndexByEnumData[] _data;
+
+    internal ContextsExtensionsTemplate(IndexByEnumData[] data)
+    {
+        _data = data ?? throw new ArgumentNullException(nameof(data));
+    }
+#>

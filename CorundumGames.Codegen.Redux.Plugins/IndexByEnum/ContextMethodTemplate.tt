@@ -1,0 +1,57 @@
+<#@ template language="C#" hostspecific="false" visibility="internal" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="EntitasRedux.Core.Plugins" #>
+<#@ import namespace="Genesis.Plugin" #>
+
+public partial class Contexts
+{
+<#
+    foreach (var d in _data)
+    {
+        var enumName = d.EnumMember.memberTypeSymbol.Name.ShortTypeName();
+        foreach (var context in d.Contexts)
+        {
+            var componentName = d.ComponentSymbol.Name.ToComponentName();
+#>
+    public const string <#= enumName #><#= componentName #> = "<#= enumName #><#= componentName #>";
+<#
+        }
+    }
+#>
+    [JCMG.EntitasRedux.PostConstructorAttribute]
+    private void InitializeEnumIndices()
+    {
+<#
+    foreach (var d in _data)
+    {
+        var enumName = d.EnumMember.memberTypeSymbol.GetFullTypeName();
+        var enumComponentName = d.EnumComponentSymbol.Name.ToComponentName();
+        var componentName = d.ComponentSymbol.Name.ToComponentName();
+        var fieldName = d.EnumMember.name;
+
+        foreach (var context in d.Contexts)
+        {
+            var matcherName = context.AddMatcherSuffix();
+
+#>
+        <#= context #>.AddEntityIndex(
+            new JCMG.EntitasRedux.PrimaryEntityIndex<<#= context.AddEntitySuffix() #>, <#= enumName #>>(
+                <#= enumName.ShortTypeName() #><#= componentName #>,
+                <#= context #>.GetGroup(<#= matcherName #>.AllOf(<#= matcherName #>.<#= enumComponentName #>, <#= matcherName #>.<#= componentName #>)),
+                (e, c) => (c as <#= enumComponentName.AddComponentSuffix() #>)?.<#= fieldName #> ?? e.<#= enumComponentName #>.<#= fieldName #>
+            )
+        );
+<#
+        }
+    }
+#>
+    }
+}
+<#+
+    private readonly IndexByEnumData[] _data;
+
+    internal ContextMethodTemplate(IndexByEnumData[] data)
+    {
+        _data = data ?? throw new ArgumentNullException(nameof(data));
+    }
+#>
