@@ -2,9 +2,6 @@
 
 namespace CorundumGames.Codegen.Redux.Plugins.GameObjectComponent;
 
-/// <summary>
-/// A configuration definition for the line-endings code-generation output should have.
-/// </summary>
 internal sealed class GameObjectComponentConfig : AbstractConfigurableConfig
 {
     public const string ComponentContextsKey = "CorundumGames.Codegen.Redux.GameObjectComponent.Contexts";
