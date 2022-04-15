@@ -8,14 +8,7 @@ internal sealed class GameObjectComponentConfig : AbstractConfigurableConfig
     private const string ComponentContextsDefault = "Game, Input";
     public string[] Contexts
     {
-        get
-        {
-            var contextsString = _genesisConfig.GetOrSetValue(ComponentContextsKey, ComponentContextsDefault);
-
-            var contextsArray = contextsString.ArrayFromCSV();
-
-            return contextsArray;
-        }
+        get => _genesisConfig.GetOrSetValue(ComponentContextsKey, ComponentContextsDefault).ArrayFromCSV();
         set => _genesisConfig.SetValue(ComponentContextsKey, value.ToCSV());
     }
 
@@ -24,6 +17,6 @@ internal sealed class GameObjectComponentConfig : AbstractConfigurableConfig
     {
         base.Configure(genesisConfig);
 
-        genesisConfig.SetIfNotPresent(ComponentContextsKey, ComponentContextsDefault);
+        _genesisConfig.SetIfNotPresent(ComponentContextsKey, ComponentContextsDefault);
     }
 }
