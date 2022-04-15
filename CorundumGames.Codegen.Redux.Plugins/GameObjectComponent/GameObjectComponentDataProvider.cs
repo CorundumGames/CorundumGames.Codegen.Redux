@@ -24,7 +24,7 @@ public sealed class GameObjectComponentDataProvider : IDataProvider, IConfigurab
         var data = new ComponentData();
         data.SetMemberData(new MemberData[]
         {
-            new("UnityEngine.GameObject", "gameObject"),
+            new("UnityEngine.GameObject", "value"),
         });
 
         data.SetTypeName("GameObjectComponent");
