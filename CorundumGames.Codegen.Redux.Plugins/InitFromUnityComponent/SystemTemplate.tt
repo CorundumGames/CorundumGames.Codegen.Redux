@@ -1,0 +1,63 @@
+<#@ template language="C#" hostspecific="false" visibility="internal" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="EntitasRedux.Core.Plugins" #>
+<#@ import namespace="Genesis.Plugin" #>
+
+<#
+    var componentName = _componentInitFromUnityComponentData.Name.ToComponentName();
+    var unityComponentName = _componentInitFromUnityComponentData.Member.memberTypeSymbol.GetFullTypeName();
+    var entityType = _contextName.AddEntitySuffix();
+    var className = $"{_contextName}Init{componentName}System";
+#>
+
+public sealed class <#= className #> : JCMG.EntitasRedux.ITearDownSystem
+{
+    private static readonly JCMG.EntitasRedux.GroupChanged<<#= entityType #>> _OnEntityAdded = OnEntityAdded;
+    private readonly <#= _contextName.AddContextSuffix() #> context;
+    private readonly JCMG.EntitasRedux.IGroup<<#= entityType #>> entities;
+
+    public <#= className #>(Contexts contexts)
+    {
+        if (contexts == null)
+        {
+            throw new System.ArgumentNullException(nameof(contexts));
+        }
+
+        context = contexts.<#= _contextName #>;
+        entities = context.GetGroup(<#= _contextName.AddMatcherSuffix() #>.GameObject);
+
+        entities.OnEntityAdded += _OnEntityAdded;
+    }
+
+    public void TearDown()
+    {
+        entities.OnEntityAdded -= _OnEntityAdded;
+    }
+
+    private static void OnEntityAdded(
+        JCMG.EntitasRedux.IGroup<<#= entityType #>> group,
+        <#= entityType #> entity,
+        int index,
+        JCMG.EntitasRedux.IComponent component
+    )
+    {
+        var gameObject = entity.GameObject.value;
+
+        if (gameObject.TryGetComponent<<#= unityComponentName #>>(out var unityComponent))
+        {
+            entity.Add<#= componentName #>(unityComponent);
+        }
+    }
+
+
+}
+<#+
+    private readonly string _contextName;
+    private readonly InitFromUnityComponentData _componentInitFromUnityComponentData;
+
+    internal SystemTemplate(InitFromUnityComponentData initFromUnityComponentData, string contextName)
+    {
+        _contextName = contextName ?? throw new ArgumentNullException(nameof(contextName));
+        _componentInitFromUnityComponentData = initFromUnityComponentData ?? throw new ArgumentNullException(nameof(initFromUnityComponentData));
+    }
+#>
