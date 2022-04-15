@@ -4,7 +4,7 @@ namespace CorundumGames.Codegen.Redux.Plugins.GameObjectComponent;
 
 internal sealed class GameObjectComponentConfig : AbstractConfigurableConfig
 {
-    public const string ComponentContextsKey = "CorundumGames.Codegen.Redux.GameObjectComponent.Contexts";
+    public const string ComponentContextsKey = "CorundumGames.Codegen.Redux.Plugins.GameObjectComponent.Contexts";
     private const string ComponentContextsDefault = "Game, Input";
     public string[] Contexts
     {
