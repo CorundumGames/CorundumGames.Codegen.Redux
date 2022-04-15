@@ -1,6 +1,6 @@
 ﻿using Genesis.Shared;
 
-namespace CorundumGames.Codegen.Redux.GameObjectComponent;
+namespace CorundumGames.Codegen.Redux.Plugins.GameObjectComponent;
 
 /// <summary>
 /// A configuration definition for the line-endings code-generation output should have.
