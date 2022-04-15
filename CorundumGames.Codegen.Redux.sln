@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorundumGames.Codegen.Redux", "CorundumGames.Codegen.Redux\CorundumGames.Codegen.Redux.csproj", "{8BB142C2-B809-4B23-A75C-5CD3D7D2487A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorundumGames.Codegen.Redux.Plugins", "CorundumGames.Codegen.Redux.Plugins\CorundumGames.Codegen.Redux.Plugins.csproj", "{8BB142C2-B809-4B23-A75C-5CD3D7D2487A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CorundumGames.Codegen.Redux.Runtime", "CorundumGames.Codegen.Redux.Runtime\CorundumGames.Codegen.Redux.Runtime.csproj", "{46C46C98-1EBB-4A84-9E8B-1EAE4694E052}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,5 +14,9 @@ Global
 		{8BB142C2-B809-4B23-A75C-5CD3D7D2487A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8BB142C2-B809-4B23-A75C-5CD3D7D2487A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8BB142C2-B809-4B23-A75C-5CD3D7D2487A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{46C46C98-1EBB-4A84-9E8B-1EAE4694E052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{46C46C98-1EBB-4A84-9E8B-1EAE4694E052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{46C46C98-1EBB-4A84-9E8B-1EAE4694E052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{46C46C98-1EBB-4A84-9E8B-1EAE4694E052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
