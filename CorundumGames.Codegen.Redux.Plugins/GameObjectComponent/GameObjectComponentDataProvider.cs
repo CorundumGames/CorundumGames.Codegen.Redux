@@ -21,22 +21,22 @@ public sealed class GameObjectComponentDataProvider : IDataProvider, IConfigurab
 
     public CodeGeneratorData[] GetData()
     {
-        var data = new ComponentData();
-        data.SetMemberData(new MemberData[]
+        var componentData = new ComponentData();
+        componentData.SetMemberData(new MemberData[]
         {
             new("UnityEngine.GameObject", "value"),
         });
 
-        data.SetTypeName("GameObjectComponent");
-        data.SetObjectTypeName("UnityEngine.GameObject");
-        data.SetContextNames(_config.Contexts);
-        data.ShouldGenerateMethods(true);
-        data.ShouldGenerateComponent(true);
-        data.IsUnique(false);
-        data.IsEvent(false);
-        data.ShouldGenerateIndex(true);
-        data.SetFlagPrefix("Is");
+        componentData.SetTypeName("GameObjectComponent");
+        componentData.SetObjectTypeName("UnityEngine.GameObject");
+        componentData.SetContextNames(_config.Contexts);
+        componentData.ShouldGenerateMethods(true);
+        componentData.ShouldGenerateComponent(true);
+        componentData.IsUnique(false);
+        componentData.IsEvent(false);
+        componentData.ShouldGenerateIndex(true);
+        componentData.SetFlagPrefix("Is");
 
-        return new CodeGeneratorData[] { data };
+        return new CodeGeneratorData[] { componentData };
     }
 }
