@@ -1,5 +1,6 @@
 <#@ template language="C#" visibility="internal" #>
 <#@ output extension=".cs" #>
+<#@ import namespace="Genesis.Plugin" #>
 
 public static class DefineSymbols
 {
@@ -28,8 +29,17 @@ public static class DefineSymbols
 <#+
     private readonly string[] _defines;
 
-    public GlobalDefinesTemplate(string[] defines)
+    public GlobalDefinesTemplate(IEnumerable<string> defines)
     {
-        _defines = defines ?? throw new ArgumentNullException(nameof(defines));
+        if (defines == null)
+        {
+            throw new ArgumentNullException(nameof(defines));
+        }
+
+        _defines = defines
+            .OrderBy(d => d)
+            .Distinct()
+            .WhereNotNull()
+            .ToArray();
     }
 #>
