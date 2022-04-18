@@ -8,5 +8,6 @@ riderModule.iml
 *Template.cs
 
 # Rider
+.idea
 .idea/**
 *.sln.DotSettings.user
