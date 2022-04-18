@@ -21,11 +21,9 @@ public sealed class GameObjectComponentDataProvider : IDataProvider, IConfigurab
 
     public CodeGeneratorData[] GetData()
     {
+        var memberData = new MemberData("UnityEngine.GameObject", "value");
         var componentData = new ComponentData();
-        componentData.SetMemberData(new MemberData[]
-        {
-            new("UnityEngine.GameObject", "value"),
-        });
+        componentData.SetMemberData(new[] { memberData });
 
         componentData.SetTypeName("GameObjectComponent");
         componentData.SetObjectTypeName("UnityEngine.GameObject");
@@ -37,6 +35,17 @@ public sealed class GameObjectComponentDataProvider : IDataProvider, IConfigurab
         componentData.ShouldGenerateIndex(true);
         componentData.SetFlagPrefix("Is");
 
-        return new CodeGeneratorData[] { componentData };
+        var indexData = new EntityIndexData();
+        indexData.SetContextNames(componentData.GetContextNames());
+        indexData.SetComponentType(componentData.GetTypeName());
+        indexData.SetEntityIndexType("JCMG.EntitasRedux.PrimaryEntityIndex");
+        indexData.SetHasMultiple(false);
+        indexData.IsCustom(false);
+        indexData.SetMemberName(memberData.name);
+        indexData.SetEntityIndexName(componentData.GetTypeName().ToComponentName());
+        indexData.SetKeyType(memberData.compilableTypeString);
+        indexData.SetCustomMethods(Array.Empty<MethodData>());
+
+        return new CodeGeneratorData[] { componentData, indexData };
     }
 }
