@@ -10,7 +10,7 @@
 public partial class <#= contextName #> : System.IDisposable
 {
     private bool _disposed;
-    private TNRD.Reflectives.ReflectiveField<System.Collections.Generic.Dictionary<string, Entitas.IEntityIndex>> _reflectiveIndexes;
+    private TNRD.Reflectives.ReflectiveField<System.Collections.Generic.Dictionary<string, JCMG.EntitasRedux.IEntityIndex>> _reflectiveIndexes;
 
     public void ActivateIndexes()
     {
@@ -28,12 +28,12 @@ public partial class <#= contextName #> : System.IDisposable
         }
     }
 
-    public System.Collections.Generic.IReadOnlyCollection<Entitas.IEntityIndex> EntityIndexes
+    public System.Collections.Generic.IReadOnlyCollection<JCMG.EntitasRedux.IEntityIndex> EntityIndexes
     {
         get
         {
-            _reflectiveIndexes ??= new TNRD.Reflectives.ReflectiveField<System.Collections.Generic.Dictionary<string, Entitas.IEntityIndex>>(
-                typeof(Entitas.Context<<#= entityName #>>),
+            _reflectiveIndexes ??= new TNRD.Reflectives.ReflectiveField<System.Collections.Generic.Dictionary<string, JCMG.EntitasRedux.IEntityIndex>>(
+                typeof(JCMG.EntitasRedux.Context<<#= entityName #>>),
                 "_entityIndices",
                 TNRD.Reflectives.ReflectiveClass.DEFAULT_FLAGS,
                 this
@@ -53,7 +53,7 @@ public partial class <#= contextName #> : System.IDisposable
             {
                 DestroyAllEntities();
             }
-            catch (Entitas.ContextStillHasRetainedEntitiesException e)
+            catch (JCMG.EntitasRedux.ContextStillHasRetainedEntitiesException e)
             {
                 UnityEngine.Debug.LogWarning(e);
             }
