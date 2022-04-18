@@ -41,21 +41,12 @@ namespace CorundumGames
                 gameObject.Link(Entity);
             }
 
-            using (ListPool<IEntityBehaviour<<#= entityName #>>>.Get(out var behaviours))
+            using (ListPool<I<#= contextName #>Blueprint>.Get(out var blueprints))
             {
-                GetComponents(behaviours);
-                foreach (var b in behaviours)
+                GetComponents(blueprints);
+                foreach (var b in blueprints)
                 {
-                    b.AddComponents(Entity);
-                }
-            }
-
-            using (ListPool<IEntityBehaviourPostInitialization<<#= entityName #>>>.Get(out var behaviours))
-            {
-                GetComponents(behaviours);
-                foreach (var b in behaviours)
-                {
-                    b.AfterComponentsAdded(Entity);
+                    b.ApplyToEntity(Entity);
                 }
             }
         }
