@@ -51,6 +51,10 @@
         <Generator>TextTemplatingFilePreprocessor</Generator>
         <LastGenOutput>SystemTemplate.cs</LastGenOutput>
       </None>
+      <None Update="GlobalDefines\GlobalDefinesTemplate.tt">
+        <Generator>TextTemplatingFilePreprocessor</Generator>
+        <LastGenOutput>GlobalDefinesTemplate.cs</LastGenOutput>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -97,6 +101,11 @@
       </Compile>
       <Compile Update="InitFromUnityComponent\SystemTemplate.cs">
         <DependentUpon>SystemTemplate.tt</DependentUpon>
+      </Compile>
+      <Compile Update="GlobalDefines\GlobalDefinesTemplate.cs">
+        <AutoGen>True</AutoGen>
+        <DesignTime>True</DesignTime>
+        <DependentUpon>GlobalDefinesTemplate.tt</DependentUpon>
       </Compile>
     </ItemGroup>
 

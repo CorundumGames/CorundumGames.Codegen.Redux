@@ -1,0 +1,35 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ output extension=".cs" #>
+
+public static class DefineSymbols
+{
+    public static System.Collections.Generic.IReadOnlyList<string> Symbols
+    {
+        get
+        {
+            return _symbols;
+        }
+    }
+
+    private static readonly string[] _symbols = new string[]{
+<#
+    foreach (var d in _defines)
+    {
+#>
+#if <#= d #>
+        "<#= d #>",
+#endif
+<#
+    }
+#>
+    };
+}
+
+<#+
+    private readonly string[] _defines;
+
+    public GlobalDefinesTemplate(string[] defines)
+    {
+        _defines = defines ?? throw new ArgumentNullException(nameof(defines));
+    }
+#>
