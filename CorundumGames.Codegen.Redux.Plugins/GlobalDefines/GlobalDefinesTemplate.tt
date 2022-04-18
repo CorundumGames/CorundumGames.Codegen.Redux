@@ -4,15 +4,10 @@
 
 public static class DefineSymbols
 {
-    public static System.Collections.Generic.IReadOnlyList<string> Symbols
-    {
-        get
-        {
-            return _symbols;
-        }
-    }
+    public static System.Collections.Generic.IReadOnlyList<string> Symbols => _symbols;
 
-    private static readonly string[] _symbols = new string[]{
+    private static readonly string[] _symbols = new string[]
+    {
 <#
     foreach (var d in _defines)
     {
