@@ -4,7 +4,7 @@ namespace CorundumGames.Codegen.Redux.Plugins.GlobalDefines;
 
 internal sealed class GlobalDefinesConfig : AbstractConfigurableConfig
 {
-    private const string DefaultDefinesKey = "CorundumGames.Codegen.Redux.Plugins.GlobalDefines.Defines";
+    private const string DefinesKey = "CorundumGames.Codegen.Redux.Plugins.GlobalDefines.Defines";
 
     private static readonly string DefaultDefines = new[]
     {
@@ -15,14 +15,14 @@ internal sealed class GlobalDefinesConfig : AbstractConfigurableConfig
 
     public string[] Defines
     {
-        get => _genesisConfig.GetOrSetValue(DefaultDefinesKey, DefaultDefines).ArrayFromCSV();
-        set => _genesisConfig.SetValue(DefaultDefinesKey, value.ToCSV());
+        get => _genesisConfig.GetOrSetValue(DefinesKey, DefaultDefines).ArrayFromCSV();
+        set => _genesisConfig.SetValue(DefinesKey, value.ToCSV());
     }
 
     public override void Configure(IGenesisConfig genesisConfig)
     {
         base.Configure(genesisConfig);
 
-        _genesisConfig.SetIfNotPresent(DefaultDefinesKey, DefaultDefines);
+        _genesisConfig.SetIfNotPresent(DefinesKey, DefaultDefines);
     }
 }
