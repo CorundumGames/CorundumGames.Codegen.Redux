@@ -3,4 +3,9 @@
         <TargetFrameworks>netcoreapp3.1;netstandard2.1</TargetFrameworks>
         <Nullable>enable</Nullable>
     </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
+        <PackageReference Include="EntitasRedux.Core" Version="2.1.2" />
+    </ItemGroup>
 </Project>
