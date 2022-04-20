@@ -11,3 +11,6 @@ riderModule.iml
 .idea
 .idea/**
 *.sln.DotSettings.user
+
+# Node.js
+node_modules/
