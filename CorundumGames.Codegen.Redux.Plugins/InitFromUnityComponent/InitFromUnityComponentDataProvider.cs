@@ -18,7 +18,7 @@ public sealed class InitFromUnityComponentDataProvider : IDataProvider, IConfigu
     public bool RunInDryMode => true;
 
     private readonly AssembliesConfig _assembliesConfig = new();
-    private IMemoryCache _memoryCache;
+    private IMemoryCache? _memoryCache;
 
     public void SetCache(IMemoryCache memoryCache)
     {
@@ -63,7 +63,8 @@ public sealed class InitFromUnityComponentDataProvider : IDataProvider, IConfigu
     {
         return type
             .GetAttributes(nameof(ContextAttribute), true)
-            .Select(a => a.AttributeClass.Name.RemoveAttributeSuffix())
+            .Where(a => a.AttributeClass != null)
+            .Select(a => a.AttributeClass!.Name.RemoveAttributeSuffix())
             .ToArray();
     }
 }
