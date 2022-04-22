@@ -1,3 +1,6 @@
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using CorundumGames.Codegen.Redux.Plugins.Base;
 using CorundumGames.Codegen.Redux.Plugins.InitFromUnityComponent;
 using EntitasRedux.Core.Plugins;

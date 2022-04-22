@@ -1,3 +1,5 @@
+using System;
+using System.Linq;
 using CorundumGames.Codegen.Redux.Runtime;
 using Genesis.Plugin;
 using Genesis.Shared;

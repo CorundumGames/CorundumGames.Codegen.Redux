@@ -1,4 +1,5 @@
-﻿using EntitasRedux.Core.Plugins;
+﻿using System;
+using EntitasRedux.Core.Plugins;
 using Genesis.Plugin;
 using Genesis.Shared;
 using JetBrains.Annotations;

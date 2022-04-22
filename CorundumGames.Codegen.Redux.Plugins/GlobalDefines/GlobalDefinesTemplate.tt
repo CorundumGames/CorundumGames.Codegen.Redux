@@ -1,6 +1,8 @@
 <#@ template language="C#" visibility="internal" #>
 <#@ output extension=".cs" #>
 <#@ import namespace="Genesis.Plugin" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
 
 public static class DefineSymbols
 {

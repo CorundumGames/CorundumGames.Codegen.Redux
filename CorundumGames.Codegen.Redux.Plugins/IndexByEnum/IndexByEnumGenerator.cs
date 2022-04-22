@@ -1,3 +1,4 @@
+using System.Linq;
 using EntitasRedux.Core.Plugins;
 using Genesis.Plugin;
 using JetBrains.Annotations;

@@ -2,7 +2,9 @@
 
     <PropertyGroup>
         <TargetFramework>netcoreapp3.1</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
+
+        <!-- Newer version of .NET let you implicitly import common System libraries. I don't want to do that. -->
+        <ImplicitUsings>false</ImplicitUsings>
         <Nullable>enable</Nullable>
       <LangVersion>10</LangVersion>
     </PropertyGroup>
