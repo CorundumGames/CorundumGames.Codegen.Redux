@@ -1,0 +1,108 @@
+name: Build & Publish
+on:
+  push:
+    branches:
+      - master
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    needs: [ build-common-init ]
+    env:
+      DOTNET_CLI_TELEMETRY_OPTOUT: 'true' # Intentionally a string
+      DOTNET_NOLOGO: 'true' # Intentionally a string
+      DOTNET_SKIP_FIRST_TIME_EXPERIENCE: 'true' # Intentionally a string
+      GIT_TERMINAL_PROMPT: 0
+      COMMIT_USER: github-actions[bot]
+      COMMIT_EMAIL: github-actions[bot]@users.noreply.github.com
+      REPO_NAME: CorundumGames.Codegen.Redux
+      PROJECT_DIR: CorundumGames.Codegen.Redux/CorundumGames.Codegen.Redux
+    steps:
+      - name: Check Out
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0 # Check out the entire repo
+          path: "CorundumGames.Codegen.Redux" # See https://github.com/nektos/act#module_not_found
+
+      - name: Set Up .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '6.x'
+
+      - name: Set Up NuGet
+        uses: nuget/setup-nuget@v1
+        with:
+          nuget-version: 'latest'
+
+      - name: Restore Dependencies
+        run: dotnet restore
+        working-directory: "${{ env.REPO_NAME }}"
+
+      - name: Restore Tools
+        run: dotnet tool restore
+        working-directory: "${{ env.REPO_NAME }}"
+
+      - name: Semantic Release
+        id: semantic
+        uses: cycjimmy/semantic-release-action@v3
+        with:
+          extra_plugins: |
+            @semantic-release/changelog
+            @semantic-release/git
+            semantic-release-dotnet
+          working_directory: ${{ env.REPO_NAME }}
+        env:
+          NUGET_TOKEN: ${{ secrets.NUGET_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Plugin
+        run: dotnet build --configuration Release --no-restore
+        working-directory: "${{ env.REPO_NAME }}"
+        # Build needs to come after release because the version info is compiled into the assembly
+
+      - name: Package for NuGet
+        run: dotnet pack --configuration Release --no-build
+        working-directory: "${{ env.REPO_NAME }}"
+
+#      - name: Publish to NuGet
+#        working-directory: "${{ env.REPO_NAME }}"
+#        if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
+#        run: dotnet nuget push **/*.nupkg --no-symbols --skip-duplicate --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY"
+#        env:
+#          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+#
+#      - name: Commit Changes to UPM Branch
+#        working-directory: "${{ env.REPO_NAME }}"
+#        if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
+#        run: |
+#          git checkout --force upm
+#          git checkout --force master package.json README.md LICENSE CHANGELOG.md
+#          git show "master:$REPO_NAME/package.json.meta" > package.json.meta
+#          git show "master:$REPO_NAME/README.md.meta" > README.md.meta
+#          git show "master:$REPO_NAME/CHANGELOG.md.meta" > CHANGELOG.md.meta
+#          git show "master:$REPO_NAME/LICENSE.meta" > LICENSE.meta
+#          git show "master:$REPO_NAME/$REPO_NAME.dll.meta" > "$REPO_NAME.dll.meta"
+#          cp "$REPO_NAME/bin/Release/net472/$REPO_NAME.dll" .
+#          git add *.meta "$REPO_NAME.dll"
+#          git config --global user.name "$COMMIT_USER"
+#          git config --global user.email "$COMMIT_EMAIL"
+#          git commit --all --message "ci: Update upm branch to match ${GITHUB_SHA:0:8}" # First 8 characters
+#
+#      - name: Push UPM branch
+#        working-directory: "${{ env.REPO_NAME }}"
+#        if: steps.semantic.outputs.new_release_published == 'true' && !env.ACT # If we're actually making a new release and not running in act...
+#        run: |
+#          git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/${{ github.repository }}
+#          git push --force --set-upstream origin upm
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#
+#      - name: Create UPM Git Tag (if necessary)
+#        working-directory: "${{ env.REPO_NAME }}"
+#        if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
+#        run: |
+#          git tag "$NEW_RELEASE_TAG" upm
+#          git push origin --tags
+#        env:
+#          NEW_RELEASE_TAG: upm/${{ steps.semantic.outputs.new_release_version }}
+#
