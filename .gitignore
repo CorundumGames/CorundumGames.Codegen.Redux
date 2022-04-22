@@ -14,3 +14,6 @@ riderModule.iml
 
 # Node.js
 node_modules/
+
+# Other Local Configuration
+.secrets
