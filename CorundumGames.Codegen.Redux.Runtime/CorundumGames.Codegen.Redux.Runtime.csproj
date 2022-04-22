@@ -1,14 +1,62 @@
 <Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
+        <!-- These two properties don't have to be the same, but they usually are in practice. -->
+        <RootNamespace>CorundumGames.Codegen.Redux.Runtime</RootNamespace>
+        <AssemblyName>$(RootNamespace)</AssemblyName>
+
+        <!-- This is a Genesis plugin, so it's a library. -->
+        <OutputType>Library</OutputType>
+
+        <!-- netcoreapp3.1 for Genesis, netstandard2.1 for Unity -->
         <TargetFrameworks>netcoreapp3.1;netstandard2.1</TargetFrameworks>
 
         <!-- Newer version of .NET let you implicitly import common System libraries. I don't want to do that. -->
         <ImplicitUsings>false</ImplicitUsings>
         <Nullable>enable</Nullable>
+
+        <!-- Not sure why compilation wouldn't be deterministic, but it feels nice to know that it is so I'll enable it -->
+        <Deterministic>true</Deterministic>
+        <Version>0.0.1</Version>
+
+        <!--
+            Microsoft.NET.Sdk incluides all *.cs and *.tt files by default, but I add them manually in order to simplify
+            excluding certain files.
+        -->
+        <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+        <EnableDefaultNoneItems>false</EnableDefaultNoneItems>
+
+        <!-- This project uses C# 9 so we can include the source directly in Unity without problems -->
+        <LangVersion>9</LangVersion>
+    </PropertyGroup>
+    <!-- I use multiple <PropertyGroup>s for tidiness and clarity. -->
+    <PropertyGroup Label="Package Properties">
+        <!-- Some of these properties are used to configure the assembly, others are used to configure the NuGet package -->
+        <PackageId>$(AssemblyName)</PackageId>
+        <Authors>Jesse Talavera-Greenberg</Authors>
+        <Company>Corundum Games, LLC</Company>
+        <Copyright>$(Company)</Copyright>
+        <Description>Codegen plugins for Genesis</Description>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/CorundumGames/CorundumGames.Codegen.Redux</PackageProjectUrl>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageTags>Entitas;code generation;Unity;code generator;roslyn;ecs</PackageTags>
+        <PackageVersion>$(Version)</PackageVersion>
+        <Product>$(AssemblyName)</Product>
+        <RepositoryType>git</RepositoryType>
+        <RepositoryUrl>https://github.com/CorundumGames/CorundumGames.Codegen.Redux.git</RepositoryUrl>
+        <RepositoryBranch>master</RepositoryBranch>
     </PropertyGroup>
 
-    <ItemGroup>
-        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
-        <PackageReference Include="EntitasRedux.Core" Version="2.1.2" />
+    <ItemGroup Label="Dependencies">
+        <PackageReference Include="JetBrains.Annotations" Version="2021.3.0"/>
+        <PackageReference Include="EntitasRedux.Core" Version="2.1.3"/>
+    </ItemGroup>
+
+    <ItemGroup Label="Source">
+        <!-- Include all source files *except* auto-generated ones (those come later) -->
+        <Compile Include="*.cs" Exclude="obj\**\*.cs"/>
+
+        <!-- Include the README, but also include it in the root of the NuGet package -->
+        <None Include="../README.md" Pack="true" PackagePath="\"/>
     </ItemGroup>
 </Project>
