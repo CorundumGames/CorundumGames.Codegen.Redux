@@ -81,6 +81,7 @@
 
         <!-- Include the README, but also include it in the root of the NuGet package -->
         <None Include="../README.md" Pack="true" PackagePath="\" />
+        <None Include="./**/README.md" Exclude="../README.md"/>
     </ItemGroup>
 
     <ItemGroup Label="Templates">
