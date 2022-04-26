@@ -54,9 +54,6 @@
         <PackageReference Include="EntitasRedux.Core.Plugins" Version="2.1.3" />
         <PackageReference Include="Genesis.Plugin" Version="2.4.6" />
         <PackageReference Include="JetBrains.Annotations" Version="2021.3.0" />
-
-        <!-- Installs the T4 generator so it's called in the TextTemplateTransform target -->
-        <DotNetCliToolReference Include="dotnet-t4-project-tool" Version="2.2.1" />
     </ItemGroup>
     <Target Name="TextTemplateTransform" BeforeTargets="BeforeBuild">
         <!--
