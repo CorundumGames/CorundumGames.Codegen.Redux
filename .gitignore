@@ -17,3 +17,11 @@ node_modules/
 
 # Other Local Configuration
 .secrets
+
+# Unity
+Library/
+Logs/
+Temp/
+UserSettings/
+Unity/*.csproj
+Unity/*.sln
