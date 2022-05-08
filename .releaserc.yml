@@ -1,0 +1,40 @@
+﻿{
+  tagFormat: "${version}",
+  branches: "master",
+  plugins: [
+    [ "@semantic-release/commit-analyzer", {
+      preset: "angular"
+    } ],
+
+    # Used to generate the text of the release notes
+    [ "@semantic-release/release-notes-generator" ],
+
+    # Used to generate a changelog file
+    [ "@semantic-release/changelog", {
+      changelogTitle: "Changelog"
+    } ],
+
+    # Used to update package.json
+    [ "@semantic-release/npm", {
+      npmPublish: false # I don't release this library on npm
+    } ],
+
+    # Used to update the csproj
+    [ "semantic-release-dotnet", {
+      paths: [ "CorundumGames.Codegen/CorundumGames.Codegen.csproj" ],
+      indent: "    "
+    } ],
+
+    # Used to commit updated package-related files and to commit the binary to the UPM branch
+    [ "@semantic-release/git", {
+      assets: [
+          "package.json",
+          "CorundumGames.Codegen/CorundumGames.Codegen.csproj",
+          "CHANGELOG.md"
+      ],
+      message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
+    } ]
+
+    # Not using semantic-release-nuget because it doesn't let me provide the arguments I need
+  ]
+}
