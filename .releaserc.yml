@@ -11,7 +11,7 @@
 
     # Used to generate a changelog file
     [ "@semantic-release/changelog", {
-      changelogTitle: "Changelog"
+      changelogTitle: "# Changelog"
     } ],
 
     # Used to update package.json
