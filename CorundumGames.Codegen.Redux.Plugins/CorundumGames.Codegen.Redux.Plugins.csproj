@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup Label="Assembly Properties">
         <!-- These two properties don't have to be the same, but they usually are in practice. -->
         <RootNamespace>CorundumGames.Codegen.Redux.Plugins</RootNamespace>
