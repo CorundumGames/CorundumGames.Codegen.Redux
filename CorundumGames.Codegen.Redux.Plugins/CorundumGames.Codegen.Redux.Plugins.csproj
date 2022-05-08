@@ -20,7 +20,7 @@
         <Version>0.0.1</Version>
 
         <!--
-            Microsoft.NET.Sdk incluides all *.cs and *.tt files by default, but I add them manually in order to simplify
+            Microsoft.NET.Sdk includes all *.cs and *.tt files by default, but I add them manually in order to simplify
             excluding certain files.
         -->
         <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
