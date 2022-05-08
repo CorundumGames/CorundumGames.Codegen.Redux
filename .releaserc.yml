@@ -21,8 +21,11 @@
 
     # Used to update the csproj
     [ "semantic-release-dotnet", {
-      paths: [ "CorundumGames.Codegen/CorundumGames.Codegen.csproj" ],
-      indent: "    "
+      paths: [
+        "CorundumGames.Codegen.Redux.Plugins/CorundumGames.Codegen.Redux.Plugins.csproj",
+        "CorundumGames.Codegen.Redux.Runtime/CorundumGames.Codegen.Redux.Runtime.csproj"
+      ],
+      indent: 4
     } ],
 
     # Used to commit updated package-related files and to commit the binary to the UPM branch
