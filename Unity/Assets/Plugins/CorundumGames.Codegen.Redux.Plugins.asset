@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f545ee4ffcbd29b4680df51e8a0e7e7c, type: 3}
-  m_Name: CorundumGames.Codegen.Plugins.Redux
+  m_Name: CorundumGames.Codegen.Redux.Plugins
   m_EditorClassIdentifier: 
-  _displayName: CorundumGames.Codegen.Plugins.Redux
+  _displayName: CorundumGames.Codegen.Redux.Plugins
   _pluginZipGUIDs:
   - ae0f436adec68e44a8c62575b445db54
