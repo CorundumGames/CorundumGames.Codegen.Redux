@@ -91,7 +91,7 @@ jobs:
           git commit --all --message "ci: Update upm branch to match ${GITHUB_SHA:0:8}" # First 8 characters
 
       - name: Push UPM branch
-        working-directory: "${{ env.REPO_NAME }}"
+        working-directory: ${{ env.REPO_NAME }}
         if: steps.semantic.outputs.new_release_published == 'true' && !env.ACT # If we're actually making a new release and not running in act...
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -100,7 +100,7 @@ jobs:
           git push --force --set-upstream origin upm
 
       - name: Create UPM Git Tag (if necessary)
-        working-directory: "${{ env.REPO_NAME }}"
+        working-directory: ${{ env.REPO_NAME }}
         if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
         run: |
           git tag "$NEW_RELEASE_TAG" upm
