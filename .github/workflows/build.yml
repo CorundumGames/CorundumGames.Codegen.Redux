@@ -64,8 +64,53 @@ jobs:
         # Build needs to come after release because the version info is compiled into the assembly
 
       - name: Package for NuGet
-        run: dotnet pack --configuration Release --no-build
+        working-directory: ${{ env.REPO_NAME }}
+        run: dotnet pack --configuration ${{ env.BUILD_CONFIGURATION }} --no-build
+
+      - name: ZIP for OpenUPM
+        working-directory: ${{ env.REPO_NAME }}
+        run: zip --junk-paths --recurse-paths "${{ env.REPO_NAME }}.zip" "${{ env.REPO_NAME }}.Plugins/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.GENESIS_NET_TARGET }}"
+
+      - name: Configure Git
+        working-directory: ${{ env.REPO_NAME }}
+        run: |
+          git config --global user.name "$COMMIT_USER"
+          git config --global user.email "$COMMIT_EMAIL"
+
+      - name: Commit Changes to UPM Branch
         working-directory: "${{ env.REPO_NAME }}"
+        if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
+        env:
+          UNITY_ASSET_DIR: "${{ env.REPO_NAME }}/Unity/Assets"
+        run: |
+          git checkout --force upm
+          git checkout --force master package.json README.md LICENSE CHANGELOG.md
+          mkdir --parents "$PLUGIN_DIR"
+
+          git show "master:$UNITY_ASSET_DIR/$MAIN_NAMESPACE.asset" > "$PLUGIN_DIR/$MAIN_NAMESPACE.asset"
+          git show "master:$UNITY_ASSET_DIR/$MAIN_NAMESPACE.asset.meta" > "$PLUGIN_DIR/$MAIN_NAMESPACE.asset.meta"
+          git show "master:$UNITY_ASSET_DIR/$MAIN_NAMESPACE.zip.meta" > "$PLUGIN_DIR/$MAIN_NAMESPACE.zip.meta"
+          mv "${{ env.REPO_NAME }}.zip" "$PLUGIN_DIR"
+
+          git commit --all --message "ci: Update upm branch to match ${GITHUB_SHA:0:8}" # First 8 characters
+
+      - name: Push UPM branch
+        working-directory: "${{ env.REPO_NAME }}"
+        if: steps.semantic.outputs.new_release_published == 'true' && !env.ACT # If we're actually making a new release and not running in act...
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote set-url origin "https://x-access-token:$GITHUB_TOKEN@github.com/${{ github.repository }}"
+          git push --force --set-upstream origin upm
+
+      - name: Create UPM Git Tag (if necessary)
+        working-directory: "${{ env.REPO_NAME }}"
+        if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
+        run: |
+          git tag "$NEW_RELEASE_TAG" upm
+          git push origin --tags
+        env:
+          NEW_RELEASE_TAG: upm/${{ steps.semantic.outputs.new_release_version }}
 
 #      - name: Publish to NuGet
 #        working-directory: "${{ env.REPO_NAME }}"
@@ -73,39 +118,7 @@ jobs:
 #        run: dotnet nuget push **/*.nupkg --no-symbols --skip-duplicate --source https://api.nuget.org/v3/index.json --api-key "$NUGET_API_KEY"
 #        env:
 #          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+
 #
-#      - name: Commit Changes to UPM Branch
-#        working-directory: "${{ env.REPO_NAME }}"
-#        if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
-#        run: |
-#          git checkout --force upm
-#          git checkout --force master package.json README.md LICENSE CHANGELOG.md
-#          git show "master:$REPO_NAME/package.json.meta" > package.json.meta
-#          git show "master:$REPO_NAME/README.md.meta" > README.md.meta
-#          git show "master:$REPO_NAME/CHANGELOG.md.meta" > CHANGELOG.md.meta
-#          git show "master:$REPO_NAME/LICENSE.meta" > LICENSE.meta
-#          git show "master:$REPO_NAME/$REPO_NAME.dll.meta" > "$REPO_NAME.dll.meta"
-#          cp "$REPO_NAME/bin/Release/net472/$REPO_NAME.dll" .
-#          git add *.meta "$REPO_NAME.dll"
-#          git config --global user.name "$COMMIT_USER"
-#          git config --global user.email "$COMMIT_EMAIL"
-#          git commit --all --message "ci: Update upm branch to match ${GITHUB_SHA:0:8}" # First 8 characters
-#
-#      - name: Push UPM branch
-#        working-directory: "${{ env.REPO_NAME }}"
-#        if: steps.semantic.outputs.new_release_published == 'true' && !env.ACT # If we're actually making a new release and not running in act...
-#        run: |
-#          git remote set-url origin https://x-access-token:$GITHUB_TOKEN@github.com/${{ github.repository }}
-#          git push --force --set-upstream origin upm
-#        env:
-#          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#
-#      - name: Create UPM Git Tag (if necessary)
-#        working-directory: "${{ env.REPO_NAME }}"
-#        if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
-#        run: |
-#          git tag "$NEW_RELEASE_TAG" upm
-#          git push origin --tags
-#        env:
-#          NEW_RELEASE_TAG: upm/${{ steps.semantic.outputs.new_release_version }}
+
 #
