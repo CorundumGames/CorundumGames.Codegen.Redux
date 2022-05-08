@@ -17,7 +17,9 @@ jobs:
       COMMIT_USER: github-actions[bot]
       COMMIT_EMAIL: github-actions[bot]@users.noreply.github.com
       REPO_NAME: CorundumGames.Codegen.Redux
+      MAIN_NAMESPACE: CorundumGames.Codegen.Plugins.Redux
       PROJECT_DIR: CorundumGames.Codegen.Redux/CorundumGames.Codegen.Redux
+      PLUGIN_DIR: Plugins
     steps:
       - name: Check Out
         uses: actions/checkout@v3
