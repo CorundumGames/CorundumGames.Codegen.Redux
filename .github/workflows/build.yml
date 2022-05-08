@@ -17,9 +17,8 @@ jobs:
       COMMIT_USER: github-actions[bot]
       COMMIT_EMAIL: github-actions[bot]@users.noreply.github.com
       REPO_NAME: CorundumGames.Codegen.Redux
-      MAIN_NAMESPACE: CorundumGames.Codegen.Plugins.Redux
+      PLUGIN_NAMESPACE: CorundumGames.Codegen.Redux.Plugins
       PROJECT_DIR: CorundumGames.Codegen.Redux/CorundumGames.Codegen.Redux
-      PLUGIN_DIR: Plugins
     steps:
       - name: Check Out
         uses: actions/checkout@v3
@@ -69,7 +68,7 @@ jobs:
 
       - name: ZIP for OpenUPM
         working-directory: ${{ env.REPO_NAME }}
-        run: zip --junk-paths --recurse-paths "${{ env.REPO_NAME }}.zip" "${{ env.REPO_NAME }}.Plugins/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.GENESIS_NET_TARGET }}"
+        run: zip --junk-paths --recurse-paths "${{ env.PLUGIN_NAMESPACE }}.zip" "${{ env.PLUGIN_NAMESPACE }}/bin/${{ env.BUILD_CONFIGURATION }}/${{ env.GENESIS_NET_TARGET }}"
 
       - name: Configure Git
         working-directory: ${{ env.REPO_NAME }}
@@ -85,12 +84,9 @@ jobs:
         run: |
           git checkout --force upm
           git checkout --force master package.json README.md LICENSE CHANGELOG.md
-          mkdir --parents "$PLUGIN_DIR"
-
-          git show "master:$UNITY_ASSET_DIR/$MAIN_NAMESPACE.asset" > "$PLUGIN_DIR/$MAIN_NAMESPACE.asset"
-          git show "master:$UNITY_ASSET_DIR/$MAIN_NAMESPACE.asset.meta" > "$PLUGIN_DIR/$MAIN_NAMESPACE.asset.meta"
-          git show "master:$UNITY_ASSET_DIR/$MAIN_NAMESPACE.zip.meta" > "$PLUGIN_DIR/$MAIN_NAMESPACE.zip.meta"
-          mv "${{ env.REPO_NAME }}.zip" "$PLUGIN_DIR"
+          git checkout --force master Unity/Assets
+          mv --force ./Unity/Assets/* .
+          mv --force "${{ env.PLUGIN_NAMESPACE }}.zip" "Plugins/${{ env.PLUGIN_NAMESPACE }}.zip"
 
           git commit --all --message "ci: Update upm branch to match ${GITHUB_SHA:0:8}" # First 8 characters
 
