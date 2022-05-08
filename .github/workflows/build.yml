@@ -36,12 +36,12 @@ jobs:
           nuget-version: 'latest'
 
       - name: Restore Dependencies
+        working-directory: ${{ env.REPO_NAME }}
         run: dotnet restore
-        working-directory: "${{ env.REPO_NAME }}"
 
       - name: Restore Tools
+        working-directory: ${{ env.REPO_NAME }}
         run: dotnet tool restore
-        working-directory: "${{ env.REPO_NAME }}"
 
       - name: Semantic Release
         id: semantic
@@ -57,8 +57,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Build Plugin
-        run: dotnet build --configuration Release --no-restore
-        working-directory: "${{ env.REPO_NAME }}"
+        working-directory: ${{ env.REPO_NAME }}
+        run: dotnet build --configuration ${{ env.BUILD_CONFIGURATION }} --no-restore
         # Build needs to come after release because the version info is compiled into the assembly
 
       - name: Package for NuGet
