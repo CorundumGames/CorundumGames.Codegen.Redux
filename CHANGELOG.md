@@ -1,3 +1,12 @@
+# Changelog
+
+## [1.0.1](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.0.0...1.0.1) (2022-05-09)
+
+
+### Bug Fixes
+
+* Fix incorrect csproj path in .releaserc.yml ([50f0044](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/50f00442e3bb16f165864588f84ec2e171454383))
+
 Changelog
 
 # 1.0.0 (2022-05-08)
