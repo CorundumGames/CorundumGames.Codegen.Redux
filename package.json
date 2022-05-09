@@ -1,0 +1,39 @@
+{
+  "name": "games.corundum.codegen.redux",
+  "displayName": "CorundumGames.Codegen.Redux",
+  "version": "1.0.2",
+  "unity": "2021.1",
+  "description": "Codegen plugins for Entitas Redux",
+  "keywords": [
+    "Entitas",
+    "Entitas Redux",
+    "Roslyn",
+    "Genesis",
+    "code generation",
+    "codegen",
+    "unity"
+  ],
+  "license": "MIT",
+  "author": {
+    "name": "Jesse Talavera-Greenberg",
+    "email": "director@corundum.games",
+    "url": "https://corundum.games"
+  },
+  "repository": "https://github.com/CorundumGames/CorundumGames.Codegen.Redux",
+  "homepage": "https://github.com/CorundumGames/CorundumGames.Codegen.Redux",
+  "documentationUrl": "https://github.com/CorundumGames/CorundumGames.Codegen.Redux#readme",
+  "dependencies": {
+    "com.jeffcampbellmakesgames.entitasredux": "2.1.3",
+    "com.jeffcampbellmakesgames.genesis": "2.4.6"
+  },
+  "devDependencies": {
+    "semantic-release": "^19.0.2",
+    "@semantic-release/changelog": "^6.0.1",
+    "@semantic-release/git": "^10.0.1",
+    "@semantic-release/commit-analyzer": "^9.0.2",
+    "@semantic-release/npm": "^9.0.1",
+    "@semantic-release/github": "^8.0.2",
+    "semantic-release-dotnet": "^1.0.0",
+    "minimist": ">=1.2.6"
+  }
+}
