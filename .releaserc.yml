@@ -33,7 +33,7 @@
       assets: [
           "package.json",
           "CorundumGames.Codegen.Redux.Plugins/CorundumGames.Codegen.Redux.Plugins.csproj",
-          "CorundumGames.Codegen.Redux.Plugins/CorundumGames.Codegen.Redux.Runtime.csproj",
+          "CorundumGames.Codegen.Redux.Runtime/CorundumGames.Codegen.Redux.Runtime.csproj",
           "CHANGELOG.md"
       ],
       message: "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
