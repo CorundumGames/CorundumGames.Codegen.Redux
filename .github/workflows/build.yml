@@ -18,6 +18,7 @@ jobs:
       COMMIT_EMAIL: github-actions[bot]@users.noreply.github.com
       REPO_NAME: CorundumGames.Codegen.Redux
       PLUGIN_NAMESPACE: CorundumGames.Codegen.Redux.Plugins
+      RUNTIME_NAMESPACE: CorundumGames.Codegen.Redux.Runtime
       PROJECT_DIR: CorundumGames.Codegen.Redux/CorundumGames.Codegen.Redux
     steps:
       - name: Check Out
@@ -77,17 +78,20 @@ jobs:
           git config --global user.email "$COMMIT_EMAIL"
 
       - name: Commit Changes to UPM Branch
-        working-directory: "${{ env.REPO_NAME }}"
+        working-directory: ${{ env.REPO_NAME }}
         if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
-        env:
-          UNITY_ASSET_DIR: "${{ env.REPO_NAME }}/Unity/Assets"
         run: |
           git checkout --force upm
-          git checkout --force master package.json README.md LICENSE CHANGELOG.md
-          git checkout --force master Unity/Assets
+          git checkout --force master package.json README.md LICENSE CHANGELOG.md Unity/Assets "${{ env.RUNTIME_NAMESPACE }}"
+          # Pull in the relevant files from master
+
+          rm --recursive --force Runtime Plugins
           mv --force ./Unity/Assets/* .
           mv --force "${{ env.PLUGIN_NAMESPACE }}.zip" "Plugins/${{ env.PLUGIN_NAMESPACE }}.zip"
+          mv --force ${{ env.RUNTIME_NAMESPACE }}/*.cs ./Runtime
+          rm --recursive --force "${{ env.RUNTIME_NAMESPACE }}"
 
+          git add *.meta Plugins Runtime
           git commit --all --message "ci: Update upm branch to match ${GITHUB_SHA:0:8}" # First 8 characters
 
       - name: Push UPM branch
@@ -104,9 +108,14 @@ jobs:
         if: steps.semantic.outputs.new_release_published == 'true' # If we're actually making a new release...
         run: |
           git tag "$NEW_RELEASE_TAG" upm
-          git push origin --tags
         env:
           NEW_RELEASE_TAG: upm/${{ steps.semantic.outputs.new_release_version }}
+
+      - name: Push Tags (if necessary)
+        working-directory: ${{ env.REPO_NAME }}
+        if: steps.semantic.outputs.new_release_published == 'true' && !env.ACT # If we're actually making a new release and not running in act...
+        run: |
+          git push origin --tags
 
 #      - name: Publish to NuGet
 #        working-directory: "${{ env.REPO_NAME }}"
