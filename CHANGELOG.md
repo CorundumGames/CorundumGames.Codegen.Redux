@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.2](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.0.1...1.0.2) (2022-05-09)
+
+
+### Bug Fixes
+
+* Empty commit to trigger GitHub Actions ([23ec0a6](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/23ec0a60d2e58541cf76a3ed7cea9da40ac3882c))
+
 ## [1.0.1](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.0.0...1.0.1) (2022-05-09)
 
 
