@@ -19,7 +19,7 @@ public partial class Contexts
     }
 #>
     [JCMG.EntitasRedux.PostConstructorAttribute]
-    private void InitializeEnumIndices()
+    public void InitializeEnumIndices()
     {
 <#
     foreach (var d in _data)
