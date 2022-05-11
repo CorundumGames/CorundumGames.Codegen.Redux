@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.0.3](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.0.2...1.0.3) (2022-05-11)
+
+
+### Bug Fixes
+
+* Make the generated InitializeEnumIndices method public ([7eacdc3](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/7eacdc308d4f85488dd889a200c0f7aaa5a5139c))
+
 ## [1.0.2](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.0.1...1.0.2) (2022-05-09)
 
 
