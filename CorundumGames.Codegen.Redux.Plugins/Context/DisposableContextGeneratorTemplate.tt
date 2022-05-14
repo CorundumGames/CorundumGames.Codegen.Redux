@@ -62,14 +62,8 @@ public partial class <#= contextName #> : System.IDisposable
             RemoveAllEventHandlers();
             ClearComponentPools();
 
-            System.GC.SuppressFinalize(this);
             _disposed = true;
         }
-    }
-
-    ~<#= contextName #>()
-    {
-        Dispose();
     }
 }
 
