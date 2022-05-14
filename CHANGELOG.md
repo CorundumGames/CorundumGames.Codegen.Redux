@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.1.0](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.0.3...1.1.0) (2022-05-14)
+
+
+### Features
+
+* Add DisposableContextsGenerator generator ([b60cd4e](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/b60cd4e2b4002d8f333f77b71b9fe86ff82183f9))
+
 ## [1.0.3](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.0.2...1.0.3) (2022-05-11)
 
 
