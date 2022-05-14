@@ -12,7 +12,7 @@
         <Nullable>enable</Nullable>
         <!-- Not sure why compilation wouldn't be deterministic, but it feels nice to know that it is so I'll enable it -->
         <Deterministic>true</Deterministic>
-        <Version>1.0.3</Version>
+        <Version>1.1.0</Version>
         <!--
             Microsoft.NET.Sdk includes all *.cs and *.tt files by default, but I add them manually in order to simplify
             excluding certain files.
