@@ -16,9 +16,6 @@ nor are they intended for use within the Unity editor.
 
 This section describes the ways in which you can add these plugins to your project.
 
-As far as assemblies go, this project works a little differently.
-The assembly is not intended to be used by Unity directly; it is intended for use by the Genesis executable.
-
 ### Via OpenUPM
 
 Install the package `games.corundum.codegen.redux` from OpenUPM through the instructions described [here](https://openupm.com/packages/games.corundum.codegen.redux/#modal-manualinstallation).
