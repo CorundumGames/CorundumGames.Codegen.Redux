@@ -53,10 +53,27 @@ If you don't need a particular plugin, simply don't include it in your `Jenny.pr
 
 # Plugins
 
-At the moment, this repository only includes one plugin.
-However, I may add more that I develop and use if they're interesting enough to reuse across projects.
-If necessary, I will split these plugins into multiple assemblies within this source repository.
+This repo includes the following plugins, each of which has a `README.md` file in its source directory:
 
+- [**Context**](CorundumGames.Codegen.Redux.Plugins/Context/README.md):
+  Assorted plugins that augment or rely on
+  [`Context`s](https://jeffcampbellmakesgames.github.io/Entitas-Redux-API/class_j_c_m_g_1_1_entitas_redux_1_1_context).
+- [**Contexts**](CorundumGames.Codegen.Redux.Plugins/Contexts/README.md):
+  Assorted plugins that augment or rely on
+  [`Contexts`](https://jeffcampbellmakesgames.github.io/Entitas-Redux-API/interface_j_c_m_g_1_1_entitas_redux_1_1_i_contexts)
+  (note the extra `s`).
+- [**Disposable Component**](CorundumGames.Codegen.Redux.Plugins/DisposableComponent/README.md):
+  Systems that clean up any [`IDisposable`](https://docs.microsoft.com/en-us/dotnet/api/system.idisposable?view=netstandard-2.1) component
+  when it's removed or replaced.
+- [**`EntityBehaviour`**](CorundumGames.Codegen.Redux.Plugins/EntityBehaviour/README.md):
+  Generated `MonoBehaviour`s for `Entity`s.
+- [**`GameObject` Component**](CorundumGames.Codegen.Redux.Plugins/GameObjectComponent/README.md):
+  Generate a component that contains a [`GameObject`](https://docs.unity3d.com/ScriptReference/GameObject).
+  Mostly used as a prerequisite for other plugins.
+- [**Global Defines**](CorundumGames.Codegen.Redux.Plugins/GlobalDefines/README.md):
+  List the project-wide `#define` symbols that your game uses, to aid in debugging.
+- [**Index By Enum**](CorundumGames.Codegen.Redux.Plugins/IndexByEnum/README.md):
+  Generate an `EntityIndex` that makes a given component indexable by *another* component that contains an `enum`.
 
 # Building
 
