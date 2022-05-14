@@ -63,18 +63,28 @@ If necessary, I will split these plugins into multiple assemblies within this so
 # Building
 
 This project can be built and used on Windows, macOS, and Linux.
-Install the latest version of .NET and build it on the command-line.
-
-Run the command `dotnet build`, passing in the `.sln` file if you're not in that directory.
+Install the latest version of .NET and build it on the command-line as follows:W
 
 ```shell
-# Either change directory to the cloned repo...
-cd CorundumGames.Codegen
-dotnet build
+# Change directory to the cloned repo...
+cd CorundumGames.Codegen.Redux
 
-# ...or pass the solution file explicitly
-dotnet build ./path/to/CorundumGames.Codegen.sln
+# Install all dependencies...
+dotnet restore
+dotnet tool restore
+
+# ...then build and package the libraries.
+dotnet build
 ```
+
+If you have [`act`](https://github.com/nektos/act) installed,
+you can run [the GitHub Actions workflow](.github/workflows/build.yml) locally
+by running the `act` command within the repo's root.
+
+# Contributing
+
+This repository is primarily written for my own needs,
+but I'm happy to receive bug reports or pull requests.
 
 # License
 
