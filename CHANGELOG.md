@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.2](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.1.1...1.1.2) (2022-05-14)
+
+
+### Bug Fixes
+
+* Fix capitalization in DisposableContextsGeneratorTemplate ([558c304](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/558c30431dab684dff500ef91f8d17d85ab3622f))
+
 ## [1.1.1](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.1.0...1.1.1) (2022-05-14)
 
 
