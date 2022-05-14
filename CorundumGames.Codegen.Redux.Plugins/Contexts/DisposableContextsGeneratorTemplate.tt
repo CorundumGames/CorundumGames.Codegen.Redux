@@ -19,7 +19,7 @@ public sealed partial class Contexts : System.IDisposable
 #>
             foreach (var observer in UnityEngine.Object.FindObjectsOfType<JCMG.EntitasRedux.VisualDebugging.ContextObserverBehaviour>(true))
             {
-                observer.contextObserver?.Deactivate();
+                observer.ContextObserver?.Deactivate();
 
                 UnityEngine.Object.Destroy(observer.gameObject);
             }
