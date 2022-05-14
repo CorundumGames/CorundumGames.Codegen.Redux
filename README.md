@@ -3,7 +3,8 @@
 [![Nuget](https://img.shields.io/nuget/v/CorundumGames.Codegen.Redux?style=for-the-badge)](https://www.nuget.org/packages/CorundumGames.Codegen.Redux)
 [![openupm](https://img.shields.io/npm/v/games.corundum.codegen.redux?label=openupm&registry_uri=https://package.openupm.com&style=for-the-badge)](https://openupm.com/packages/games.corundum.codegen.redux)
 
-A set of [Genesis](https://github.com/jeffcampbellmakesgames/Genesis) plugins that I think are useful for a wide variety of projects that use C#, Unity, and [Entitas Redux](https://github.com/jeffcampbellmakesgames/Entitas-Redux).
+A set of [Genesis](https://github.com/jeffcampbellmakesgames/Genesis) plugins
+that I think are useful for a wide variety of projects that use C#, Unity, and [Entitas Redux](https://github.com/jeffcampbellmakesgames/Entitas-Redux).
 
 # How to Use
 
