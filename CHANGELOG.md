@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.1](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.1.0...1.1.1) (2022-05-14)
+
+
+### Bug Fixes
+
+* Fix a typo in DisposableContextsGenerator.Name ([82e4c05](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/82e4c054abb669d2f32e0c270c8b29f0acb2fac5))
+* Fix an incorrect namespace reference in DisposableContextsGeneratorTemplate ([935603b](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/935603b77dc84a307715f4ca230e572edb0417e8))
+
 # [1.1.0](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.0.3...1.1.0) (2022-05-14)
 
 
