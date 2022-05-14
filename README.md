@@ -19,37 +19,31 @@ This section describes the ways in which you can add these plugins to your proje
 ### Via OpenUPM
 
 Install the package `games.corundum.codegen.redux` from OpenUPM through the instructions described [here](https://openupm.com/packages/games.corundum.codegen.redux/#modal-manualinstallation).
-When you do so, you'll need to add a specific directory to your `Jenny.SearchPaths` property. Add the following:
 
-```properties
-Jenny.SearchPaths = ... \
-  Library/PackageCache/games.corundum.codegen.redux@0.1.9 \
-  ... # Other directories
-```
-
-Adjust the version number depending on which one you have installed.
-
-### Manually
-
-This is the least convenient option, but it will work if you're unable to use the UPM package for some reason.
-
-1. Download the latest `.nupkg` from NuGet [here](https://www.nuget.org/api/v2/package/CorundumGames.Codegen.Redux).
-2. Extract the archive's contents using a tool that supports `.nupkg` files, such as [7-Zip](https://www.7-zip.org).
-3. Copy the file `lib/net472/CorundumGames.Codegen.Redux.dll` to wherever you keep your codegen assemblies. If you're installing with this method, this will probably be in your project's source tree.
-4. Add the directory containing your codegen assemblies to your `Jenny.properties` file.
 
 ## Configuration
 
-To use any plugin in this repository, add the following to your `Jenny.properties` file:
+Your next steps then depend on how you manage your project's Genesis configuration.
+Each plugin's respective `README.md` file lists configuration guidance.
+The following sections describe configuration that is common to all included plugins.
+
+### Via `.properties` Files
+
+If you configure Genesis with `.properties` files (similar to Jenny),
+you can use these plugins by modifying the following properties.
 
 ```properties
-Jenny.SearchPaths = ... # Configure as described in the Installation section
-
-Jenny.Plugins = CorundumGames.Codegen
+# Add the name of the assembly somewhere in the comma-separated list (line continuations are OK)
+Genesis.Plugins = ... \
+  CorundumGames.Codegen.Redux.Plugins, \
+  ...
 ```
 
-Configuration specific to each plugin can be found in the following sections, where applicable.
-If you don't need a particular plugin, simply don't include it in your `Jenny.properties` file.
+Settings for this repo's plugins are prefixed with `CorundumGames.Codegen.Redux.Plugins`
+unless otherwise noted.
+
+If you don't need a particular plugin within the provided assembly,
+simply don't include it in your configuration.
 
 # Plugins
 
