@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.3](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.1.2...1.1.3) (2022-05-14)
+
+
+### Bug Fixes
+
+* Remove destructor for Context ([7bf272b](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/7bf272bace39d3eac2c378fa4f35e61c6f9982fd))
+* Remove generated EntityIndexes method ([0ccae56](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/0ccae567ae03cd92cbdb86d5e913ed477ee136b0))
+
 ## [1.1.2](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.1.1...1.1.2) (2022-05-14)
 
 
