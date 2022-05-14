@@ -8,7 +8,7 @@ namespace CorundumGames.Codegen.Redux.Plugins.Contexts;
 [PublicAPI]
 public sealed class DisposableContextsGenerator : AbstractGenerator
 {
-    public override string Name => "Disposable ContextsW";
+    public override string Name => "Disposable Contexts";
 
     public override CodeGenFile[] Generate(CodeGeneratorData[] data)
     {
