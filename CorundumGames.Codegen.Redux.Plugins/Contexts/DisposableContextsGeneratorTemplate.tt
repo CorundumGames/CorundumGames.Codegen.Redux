@@ -11,7 +11,7 @@ public sealed partial class Contexts : System.IDisposable
         {
 <#
     foreach (var c in _contextNames)
-    {
+    { // TODO: Don't look for ALL ContextObservers, just look for ones represented by this Contexts instance
 #>
             <#= c #>?.Dispose();
 <#
