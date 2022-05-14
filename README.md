@@ -8,8 +8,8 @@ A set of [Genesis](https://github.com/jeffcampbellmakesgames/Genesis) plugins th
 # How to Use
 
 These plugins are intended to be used directly by the Genesis code generator.
-They are not intended to be used as a dependency for your own plugins.
-Additionally, these plugins are not intended to be used within the Unity editor.
+They are not intended to be used as a dependency for your own plugins,
+nor are they intended for use within the Unity editor.
 
 ## Installation
 
