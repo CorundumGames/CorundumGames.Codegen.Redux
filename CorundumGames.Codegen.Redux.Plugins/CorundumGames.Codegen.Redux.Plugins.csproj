@@ -96,6 +96,11 @@
             <CustomToolNamespace>$(RootNamespace).Context</CustomToolNamespace>
             <LastGenOutput>TypeEnumGeneratorTemplate.cs</LastGenOutput>
         </None>
+        <None Update="Contexts\DisposableContextsGeneratorTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <CustomToolNamespace>$(RootNamespace).Contexts</CustomToolNamespace>
+            <LastGenOutput>DisposableContextsGeneratorTemplate.cs</LastGenOutput>
+        </None>
         <None Update="EntityBehaviour\EntityBehaviourTemplate.tt">
             <Generator>TextTemplatingFilePreprocessor</Generator>
             <CustomToolNamespace>$(RootNamespace).EntityBehaviour</CustomToolNamespace>

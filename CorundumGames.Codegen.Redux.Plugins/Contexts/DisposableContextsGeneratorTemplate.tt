@@ -1,0 +1,38 @@
+<#@ template language="C#" hostspecific="false" visibility="internal" #>
+<#@ output extension=".cs" #>
+
+public sealed partial class Contexts : System.IDisposable
+{
+    private bool _disposed;
+
+    public void Dispose()
+    {
+        if (!_disposed)
+        {
+<#
+    foreach (var c in _contextNames)
+    {
+#>
+            <#= c #>?.Dispose();
+<#
+    }
+#>
+            foreach (var observer in UnityEngine.Object.FindObjectsOfType<JCMG.EntitasRedux.VisualDebugging.Unity.ContextObserverBehaviour>(true))
+            {
+                observer.contextObserver?.Deactivate();
+
+                UnityEngine.Object.Destroy(observer.gameObject);
+            }
+
+            _disposed = true;
+        }
+    }
+}
+<#+
+    private readonly string[] _contextNames;
+
+    internal DisposableContextsGeneratorTemplate(string[] contextNames)
+    {
+        _contextNames = contextNames ?? throw new ArgumentNullException(nameof(contextNames));
+    }
+#>
