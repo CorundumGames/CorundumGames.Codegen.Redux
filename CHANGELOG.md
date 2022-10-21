@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.2.0](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.1.3...1.2.0) (2022-10-21)
+
+
+### Features
+
+* Add ComponentEntityApiInterfaceGenerator ([aaf54ae](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/aaf54aeb70f8eefbd73eac86af62e51a6b13e32f))
+
 ## [1.1.3](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.1.2...1.1.3) (2022-05-14)
 
 

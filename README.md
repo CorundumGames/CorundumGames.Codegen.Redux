@@ -23,6 +23,12 @@ Install the package `games.corundum.codegen.redux` from OpenUPM through the inst
 
 ## Configuration
 
+Settings for this repo's plugins are prefixed with `CorundumGames.Codegen.Redux.Plugins`
+unless otherwise noted.
+
+If you don't need a particular plugin within the provided assembly,
+simply don't include it in your configuration.
+
 Your next steps then depend on how you manage your project's Genesis configuration.
 Each plugin's respective `README.md` file lists configuration guidance.
 The following sections describe configuration that is common to all included plugins.
@@ -39,11 +45,10 @@ Genesis.Plugins = ... \
   ...
 ```
 
-Settings for this repo's plugins are prefixed with `CorundumGames.Codegen.Redux.Plugins`
-unless otherwise noted.
+### Via the Editor
 
-If you don't need a particular plugin within the provided assembly,
-simply don't include it in your configuration.
+TODO
+
 
 # Plugins
 
@@ -89,6 +94,12 @@ dotnet build
 If you have [`act`](https://github.com/nektos/act) installed,
 you can run [the GitHub Actions workflow](.github/workflows/build.yml) locally
 by running the `act` command within the repo's root.
+
+# Versioning
+
+Due to a mistake I made in writing the build pipeline, the 1.x series should not be considered stable.
+I didn't want to pull down a live version, so I just rolled with it.
+Version 2.x will be considered the first stable release.
 
 # Contributing
 
