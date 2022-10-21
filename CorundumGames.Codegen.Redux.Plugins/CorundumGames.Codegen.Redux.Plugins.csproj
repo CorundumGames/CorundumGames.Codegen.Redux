@@ -126,6 +126,21 @@
             <CustomToolNamespace>$(RootNamespace).GlobalDefines</CustomToolNamespace>
             <LastGenOutput>GlobalDefinesTemplate.cs</LastGenOutput>
         </None>
+        <None Update="Entity\ComponentEntityApiInterfaceGeneratorFlagTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <CustomToolNamespace>$(RootNamespace).Entity</CustomToolNamespace>
+            <LastGenOutput>ComponentEntityApiInterfaceGeneratorFlagTemplate.cs</LastGenOutput>
+        </None>
+        <None Update="Entity\ComponentEntityApiInterfaceGeneratorDataTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <CustomToolNamespace>$(RootNamespace).Entity</CustomToolNamespace>
+            <LastGenOutput>ComponentEntityApiInterfaceGeneratorDataTemplate.cs</LastGenOutput>
+        </None>
+        <None Update="Entity\ComponentEntityApiInterfaceGeneratorTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <CustomToolNamespace>$(RootNamespace).Entity</CustomToolNamespace>
+            <LastGenOutput>ComponentEntityApiInterfaceGeneratorTemplate.cs</LastGenOutput>
+        </None>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\CorundumGames.Codegen.Redux.Runtime\CorundumGames.Codegen.Redux.Runtime.csproj"/>

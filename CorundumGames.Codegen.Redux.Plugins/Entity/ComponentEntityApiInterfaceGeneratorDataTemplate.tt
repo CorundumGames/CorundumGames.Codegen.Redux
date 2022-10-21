@@ -1,0 +1,29 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="EntitasRedux.Core.Plugins" #>
+
+<#
+    var componentName = _component.ComponentName()!;
+    var newMethodParameters = _component.GetMemberData().GetMethodParameters(true);
+    var validComponentName = _component.ComponentNameValidUppercaseFirst();
+    var typeName = _component.GetTypeName();
+#>
+
+public partial interface I<#= componentName #>Entity : JCMG.EntitasRedux.IEntity
+{
+    [JetBrains.Annotations.NotNull] <#= typeName #> <#= validComponentName #> { get; }
+    bool Has<#= componentName #> { get; }
+
+    void Add<#= componentName #>(<#= newMethodParameters #>);
+    void Replace<#= componentName #>(<#= newMethodParameters #>);
+    void Remove<#= componentName #>();
+}
+
+<#+
+    private readonly ComponentData _component;
+
+    public ComponentEntityApiInterfaceGeneratorDataTemplate(ComponentData component)
+    {
+        _component = component ?? throw new ArgumentNullException(nameof(component));
+    }
+#>

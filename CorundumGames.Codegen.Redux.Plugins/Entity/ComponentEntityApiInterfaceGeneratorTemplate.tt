@@ -1,0 +1,21 @@
+<#@ template language="C#" visibility="internal" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="EntitasRedux.Core.Plugins" #>
+
+<#
+    var entityType = _contextName.AddEntitySuffix();
+    var componentName = _component.ComponentName();
+#>
+
+public partial class <#= entityType #> : I<#= componentName #>Entity { }
+
+<#+
+    private readonly ComponentData _component;
+    private readonly string _contextName;
+
+    public ComponentEntityApiInterfaceGeneratorTemplate(ComponentData component, string contextName)
+    {
+        _component = component ?? throw new ArgumentNullException(nameof(component));
+        _contextName = contextName ?? throw new ArgumentNullException(nameof(contextName));
+    }
+#>
