@@ -1,0 +1,56 @@
+<#@ template language="C#" hostspecific="false" visibility="internal" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="EntitasRedux.Core.Plugins" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="JCMG.EntitasRedux" #>
+public sealed class <#= _contextName #>FixedCleanupFeature : Feature
+{
+    #if !ENTITAS_REDUX_NO_SHARED_CONTEXT
+    public <#= _contextName #>FixedCleanupFeature() : base()
+    {
+        AddSystems(Contexts.SharedInstance.<#= _contextName #>);
+    }
+    #endif
+    public <#= _contextName #>FixedCleanupFeature(JCMG.EntitasRedux.IContext<<#= _contextName #>Entity> context) : base()
+    {
+        AddSystems(context);
+    }
+    private void AddSystems(JCMG.EntitasRedux.IContext<<#= _contextName #>Entity> context)
+    {
+<#
+    foreach (var c in _components)
+    {
+        var componentName = c.ComponentSymbol.Name.ToComponentName();
+        if (c.Modes.Contains(CleanupMode.DestroyEntity))
+        {
+#>
+            Add(new FixedDestroy<#= _contextName #>EntitiesWith<#= componentName #>System(context));
+<#
+        }
+
+        if (c.Modes.Contains(CleanupMode.RemoveComponent))
+        {
+#>
+            Add(new FixedRemove<#= componentName #>From<#= _contextName #>EntitiesSystem(context));
+<#
+        }
+    }
+#>
+    }
+}
+<#+
+    private readonly string _contextName;
+    private readonly IReadOnlyCollection<FixedCleanupComponentData> _components;
+
+    public FixedCleanupFeatureGeneratorTemplate(string contextName, IEnumerable<FixedCleanupComponentData> components)
+    {
+        if (components == null)
+        {
+            throw new ArgumentNullException(nameof(components));
+        }
+
+        _contextName = contextName ?? throw new ArgumentNullException(nameof(contextName));
+        _components = components.ToArray();
+    }
+#>

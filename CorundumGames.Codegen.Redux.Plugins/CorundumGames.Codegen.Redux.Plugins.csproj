@@ -141,6 +141,21 @@
             <CustomToolNamespace>$(RootNamespace).Entity</CustomToolNamespace>
             <LastGenOutput>ComponentEntityApiInterfaceGeneratorTemplate.cs</LastGenOutput>
         </None>
+        <None Update="FixedCleanup\FixedCleanupDestroyEntitySystemGeneratorTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <CustomToolNamespace>$(RootNamespace).FixedCleanup</CustomToolNamespace>
+            <LastGenOutput>FixedCleanupDestroyEntitySystemGeneratorTemplate.cs</LastGenOutput>
+        </None>
+        <None Update="FixedCleanup\FixedCleanupRemoveComponentSystemGeneratorTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <CustomToolNamespace>$(RootNamespace).FixedCleanup</CustomToolNamespace>
+            <LastGenOutput>FixedCleanupRemoveComponentSystemGeneratorTemplate.cs</LastGenOutput>
+        </None>
+        <None Update="FixedCleanup\FixedCleanupFeatureGeneratorTemplate.tt">
+            <Generator>TextTemplatingFilePreprocessor</Generator>
+            <CustomToolNamespace>$(RootNamespace).FixedCleanup</CustomToolNamespace>
+            <LastGenOutput>FixedCleanupFeatureGeneratorTemplate.cs</LastGenOutput>
+        </None>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\CorundumGames.Codegen.Redux.Runtime\CorundumGames.Codegen.Redux.Runtime.csproj"/>
