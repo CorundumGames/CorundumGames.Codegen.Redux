@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.3.0](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.2.0...1.3.0) (2022-10-25)
+
+
+### Features
+
+* Add FixedCleanupAttribute ([9b34968](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/9b34968cc38b6b953e08a7a4ab38bbfaa4fbed09))
+
 # [1.2.0](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.1.3...1.2.0) (2022-10-21)
 
 
