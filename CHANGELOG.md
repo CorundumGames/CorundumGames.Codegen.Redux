@@ -1,5 +1,12 @@
 # Changelog
 
+# [1.4.0](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.3.1...1.4.0) (2022-10-25)
+
+
+### Features
+
+* Add plugins for generating cleanup systems that run in the fixed timestep ([81ac117](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/81ac117b5f2b44f68fb7e54b11fc9233e3d1f26c))
+
 ## [1.3.1](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.3.0...1.3.1) (2022-10-25)
 
 
