@@ -1,0 +1,59 @@
+<#@ template language="C#" hostspecific="false" visibility="internal" #>
+<#@ output extension=".cs" #>
+<#@ import namespace="EntitasRedux.Core.Plugins" #>
+<#@ import namespace="Genesis.Plugin" #>
+<#
+    var componentName = _data.ComponentSymbol.Name.ToComponentName();
+    var entityName = _contextName.AddEntitySuffix();
+#>
+public sealed class <#= _systemName #> : JCMG.EntitasRedux.IFixedUpdateSystem
+{
+    private readonly JCMG.EntitasRedux.IGroup<<#= entityName #>> _group;
+    public <#= _systemName #>(JCMG.EntitasRedux.IContext<<#= entityName #>> context)
+    {
+        if (context == null)
+        {
+            throw new System.ArgumentNullException(nameof(context));
+        }
+
+        _group = context.GetGroup(<#= _contextName #>Matcher.<#= componentName #>);
+    }
+
+    public void FixedUpdate()
+    {
+        using var _ = UnityEngine.Pool.ListPool<<#= entityName #>>.Get(out var buffer);
+        _group.GetEntities(buffer);
+
+        foreach (var e in buffer)
+        {
+<#
+    if (_data.MemberData.Length == 0)
+    { // If this is a flag component...
+        var prefixedComponentName = _data.FlagPrefix.UppercaseFirst() + componentName;
+#>
+            e.<#= prefixedComponentName #> = false;
+<#
+    }
+    else
+    {
+#>
+            e.Remove<#= componentName #>();
+<#
+    }
+#>
+        }
+    }
+}
+<#+
+    private readonly string _contextName;
+    private readonly string _systemName;
+    private readonly FixedCleanupComponentData _data;
+
+    public FixedCleanupRemoveComponentSystemGeneratorTemplate(FixedCleanupComponentData data, string contextName,
+        string systemName)
+    {
+        _data = data ?? throw new ArgumentNullException(nameof(data));
+        _contextName = contextName ?? throw new ArgumentNullException(nameof(contextName));
+        _systemName = systemName ?? throw new ArgumentNullException(nameof(systemName));
+    }
+#>
