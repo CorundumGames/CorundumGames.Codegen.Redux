@@ -1,13 +1,14 @@
 <#@ template language="C#" hostspecific="false" visibility="internal" #>
 <#@ output extension=".cs" #>
 <#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
 
 public sealed class <#= _featureName #> : Feature
 {
     public <#= _featureName #>(Contexts contexts) : base("<#= _featureName #>")
     {
 <#
-    foreach (var name in _systemNames)
+    foreach (var name in _systemNames.OrderBy(n => n))
     {
 #>
         Add(new <#= name #>(contexts));
