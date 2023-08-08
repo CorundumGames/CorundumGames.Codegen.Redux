@@ -24,7 +24,7 @@ namespace CorundumGames
         public <#= entityName #> Entity { get; private set; }
 
         [Inject, UsedImplicitly]
-        private void Init(<#= contextName.AddContextSuffix() #> context)
+        internal void Init(<#= contextName.AddContextSuffix() #> context)
         {
             if (context == null)
             {
