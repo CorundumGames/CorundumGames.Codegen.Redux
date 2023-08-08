@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.1](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.4.0...1.4.1) (2023-08-08)
+
+
+### Bug Fixes
+
+* Make generated EntityBehaviour initializers internal so VContainer can use codegen on them ([fd919ae](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/commit/fd919aea616e2a49839b7e257eb6feb2ce16e338))
+
 # [1.4.0](https://github.com/CorundumGames/CorundumGames.Codegen.Redux/compare/1.3.1...1.4.0) (2022-10-25)
 
 
